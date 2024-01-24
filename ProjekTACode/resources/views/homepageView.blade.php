@@ -37,7 +37,7 @@
             <div class="col-10 g-0">
                 <div class="col-10 my-3 offset-1">
                     <div class="row justify-content-start mb-3">
-                        <div class="col-auto mt-1">Cari Konsumen</div>
+                        <div class="col-auto mt-1">Cari Anggota</div>
                         <div class="col-5 me-auto">
                             <input type="text" class="input form-control" id="input"
                                 placeholder="Cari disini ....">
@@ -48,59 +48,37 @@
                                 style="display: flex">Tambah</a>
                         </div>
                     </div>
-                    <div class="" style="height:320px">
+                    <div class="search d-flex justify-content-center">
                         <table class="table table-hover table-bordered text-center table-striped align-middle">
-                            <thead class="table-dark align-middle">
+                            <thead class="table-dark">
                                 <tr>
-                                    <th class="col-2" scope="col">Judul</th>
-                                    <th class="col-2" scope="col">Nama Peminjam</th>
-                                    <th class="col-2" scope="col">Tanggal Peminjaman</th>
-                                    <th class="col-2" scope="col">Tanggal Harus Kembali</th>
-                                    <th class="col-2" scope="col">Status</th>
+                                    <th class="col-2" scope="col">Nama</th>
+                                    <th class="col-2" scope="col">Alamat</th>
+                                    <th class="col-2" scope="col">No Telp</th>
                                     <th class="col-2" scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="overflow-scroll" style="max-height: 100px">
-                                @foreach ($datasend as $datatable)
-                                    <tr>
-                                        <td>{{ $datatable->judul }}</td>
-                                        <td>{{ $datatable->nama }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($datatable->tgl_pmnj)) }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($datatable->tgl_kembali)) }}</td>
-                                        <td>{{ $datatable->status_pmnj == 0 ? 'Masih Dipinjam' : 'Telah Dikembalikan' }}
-                                        </td>
-                                        <td>
-                                            {{-- <a data-bs-toggle="modal" data-bs-target="#Editpeminjaman"
-                                                data-id='{"idpmnj":"{{ $datatable->id_pmnj }}","tglpmnj":"{{ $datatable->tgl_pmnj }}","status":"{{ $datatable->status_pmnj }}","idbuku":"{{ $datatable->id_buku }}","idagt":"{{ $datatable->id_agt }}"}'
-                                                class="edit text-decoration-none"><i class="icon fa-solid fa-pen-to-square"></i></a> --}}
-                                            @if ($datatable->status_pmnj == 0)
-                                                <form action="/editpeminjaman" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="idpmnj" id="idpmnj"
-                                                        value="{{ $datatable->id_pmnj }}" class="form-control-plaintext"
-                                                        style="border-radius: 10px;">
-                                                    <input type="hidden" name="buku" id="buku"
-                                                        value="{{ $datatable->id_buku }}" class="form-control-plaintext"
-                                                        style="border-radius: 10px;">
-                                                    <input type="submit" class="btn shadow rounded"
-                                                        style="background-color: #364F6B; color: white; width: 125px"
-                                                        value="Dikembalikan">
-                                                </form>
-                                            @else
-                                                <a data-bs-toggle="modal" data-bs-target="#Deletepeminjaman"
-                                                    data-id='{"idpmnj":"{{ $datatable->id_pmnj }}"}'
-                                                    class="delete text-decoration-none"><i
-                                                        class="icon fa-solid fa-trash-can"></i></a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            <tbody>
+                                <tr v-for = "item in data_list">
+                                    <td>@{{ item.nama }}</td>
+                                    <td>@{{ item.alamat }}</td>
+                                    <td>@{{ item.telp }}</td>
+                                    {{-- <td><a data-bs-toggle="modal" data-bs-target="#Editanggota"
+                                                data-id='{"idagt":"{{ $datatable->id_agt }}","nama":"{{ $datatable->nama }}","notelp":"{{ $datatable->no_telp }}"}'
+                                                class="edit text-decoration-none"><i class="icon fa-solid fa-pen-to-square"></i></a>
+                                            |
+                                            <a data-bs-toggle="modal" data-bs-target="#Deleteanggota"
+                                                data-id='{"idagt":"{{ $datatable->id_agt }}"}' class="delete text-decoration-none"><i
+                                                    class="icon fa-solid fa-trash-can"></i></a>
+                                        </td> --}}
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        @include('konsumen.addkonsumen')
     </div>
     <script>
         var app = new Vue({
@@ -110,7 +88,11 @@
             },
             data: {
                 data_list: [],
-                content: ""
+                content: "",
+                formData: {
+                    name: '',
+                    email: ''
+                }
             },
             methods: {
                 getDataList: function() {
