@@ -96,7 +96,7 @@
             },
             methods: {
                 getDataList: function() {
-                    axios.get("{{ url('') }}")
+                    axios.get("{{ url('/getData') }}")
                         .then(resp => {
                             this.data_list = resp.data;
                         })
