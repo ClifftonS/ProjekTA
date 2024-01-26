@@ -31,8 +31,8 @@
 </head>
 
 <body>
-    <div id="app" class="container-fluid g-0">
-        <div class="row g-0">
+    <div class="container-fluid g-0">
+        <div id="app" class="row g-0">
             @include('sidebar')
             <div class="col-10 g-0">
                 <div class="col-10 my-3 offset-1">
@@ -78,8 +78,8 @@
                 </div>
             </div>
         </div>
-        @include('konsumen.addkonsumen')
     </div>
+    @include('konsumen.addkonsumen')
     <script>
         var app = new Vue({
             el: '#app',
