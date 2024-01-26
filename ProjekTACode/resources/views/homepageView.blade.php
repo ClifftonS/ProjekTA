@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <div class="container-fluid g-0">
+    <div id="app" class="container-fluid g-0">
         <div class="row g-0">
             @include('sidebar')
             <div class="col-10 g-0">
@@ -91,7 +91,8 @@
                 content: "",
                 formData: {
                     name: '',
-                    email: ''
+                    telp: '',
+                    alamat: ''
                 }
             },
             methods: {
@@ -99,15 +100,14 @@
                     axios.get("{{ url('/getData') }}")
                         .then(resp => {
                             this.data_list = resp.data;
+                            dd(data_list);
                         })
                         .catch(err => {
                             alert("Terjadi kesalahan!");
                         })
                 }
                 saveList: function() {
-                    var form_data = new FormData();
-                    form_data.append("data", this.content);
-                    axios.post("{{ url('') }}", form_data)
+                    axios.post("{{ url('/saveData') }}", this.formData)
                         .then(resp => {
                             var item = resp.data;
                             alert(item.message);

@@ -18,3 +18,4 @@ Route::get('/', function () {
     return view('homepageView');
 });
 Route::get('/getData', [HomeController::class, 'getData']);
+Route::get('/saveData', [HomeController::class, 'saveData']);

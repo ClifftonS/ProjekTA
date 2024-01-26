@@ -10,4 +10,7 @@ class HomeController extends Controller
         $result = DB::table('konsumen')->where('delete', 0)->get();
         return response()->json($result);
     }
+    public function saveData() {
+        $data = request(key:"nama");
+    }
 }
