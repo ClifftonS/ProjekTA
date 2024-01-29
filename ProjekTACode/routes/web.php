@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KonsumenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +18,5 @@ use App\Http\Controllers\HomeController;
 Route::get('/', function () {
     return view('homepageView');
 });
-Route::get('/getData', [HomeController::class, 'getData']);
-Route::get('/saveData', [HomeController::class, 'saveData']);
+Route::get('/ajaxkonsumen', [KonsumenController::class, 'ajax']);
+Route::post('/ajaxkonsumen', [KonsumenController::class, 'add']);
