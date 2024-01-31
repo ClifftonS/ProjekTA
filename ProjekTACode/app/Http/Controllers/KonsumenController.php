@@ -33,21 +33,68 @@ class KonsumenController extends Controller
                            ->exists();
 
                 if ($exists) {
-                    $fail('Data sudah ada dalam database.');
+                    $fail('Name already exist');
                 }
             }],
-            'telp'   => 'required|numeric|max:15',
+            'telp'   => 'required|numeric',
             'alamat'   => 'required|max:100'
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json($validator->errors(), 422);
         }
 
         DB::table('konsumen')->insert([
+            'id_konsumen' => "0",
             'nama' => $request->nama,
             'telp' => $request->telp,
             'alamat' => $request->alamat
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil Disimpan!'
+        ]);
+    }
+    public function edit(Request $request) {
+        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'nama'     => ['required', 'max:100', function ($attribute, $value, $fail) use ($id) {
+                $exists = DB::table('konsumen')
+                           ->where('nama', $value)
+                           ->where('id_konsumen', '!=', $id)
+                           ->exists();
+
+                if ($exists) {
+                    $fail('Name already exist.');
+                }
+            }],
+            'telp'   => 'required|numeric',
+            'alamat'   => 'required|max:100'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        DB::table('konsumen')->where('id_konsumen',$id)->update([
+            'nama' => $request->nama,
+            'telp' => $request->telp,
+            'alamat' => $request->alamat
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil Diubah!'
+        ]);
+    }
+    public function delete(Request $request) {
+        DB::table('konsumen')->where('id_konsumen',$request->id)->update([
+            'delete' => 1
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil Dihapus!'
         ]);
     }
 }

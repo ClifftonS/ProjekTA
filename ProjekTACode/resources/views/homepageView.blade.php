@@ -9,9 +9,7 @@
     <title>POS Berkat Mulia</title>
 
     {{-- SweetAlert --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -28,51 +26,6 @@
 </head>
 
 <body>
-    <div class="container-fluid g-0">
-        <div class="row g-0">
-            @include('sidebar')
-            <div class="col-10 g-0">
-                <div class="col-10 my-3 offset-1">
-                    <div class="row justify-content-start mb-3">
-                        <div class="col-auto mt-1">Cari Anggota</div>
-                        <div class="col-5 me-auto">
-                            <input type="text" class="input form-control" id="input"
-                                placeholder="Cari disini ....">
-                        </div>
-                        <div class="col-auto">
-                            <a class="btn btn-primary mb-3" role="button" data-bs-toggle="modal"
-                                data-bs-target="#Addkonsumen" data-bs-placement="top" style="display: flex">Tambah</a>
-                        </div>
-                    </div>
-                    <div class="search d-flex justify-content-center" id="search"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @include('konsumen.addkonsumen')
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            search();
-            $("#input").keyup(function() {
-                search();
-            });
-        });
-
-        function search() {
-            var strcari = $("#input").val();
-            $.ajax({
-                type: "get",
-                url: "{{ url('/ajaxkonsumen') }}",
-                data: {
-                    name: strcari
-                },
-                success: function(response) {
-                    $("#search").html(response);
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

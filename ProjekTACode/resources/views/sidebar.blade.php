@@ -4,29 +4,28 @@
             <svg class="bi me-2" width="16" height="16">
                 <use xlink:href="#home" />
             </svg>
-            <span class="fs-4">Perpustakaan</span>
+            <span class="fs-4">Berkat Mulia</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column Fmb-auto">
             <li class="nav-item mb-1">
-                <a href="/katalog" class="nav-link {{ Request::is('katalog') ? 'active' : '' }}" aria-current="page">
-                    <div class="ms-4 textnav">Katalog</div>
+                <a href="/konsumen" class="nav-link {{ Request::is('konsumen') ? 'active' : '' }}" aria-current="page">
+                    <div class="ms-4 textnav">Konsumen</div>
+                </a>
+            </li>
+            <li class="nav-item dropdown mb-1">
+                <a href="/merk" class="nav-link {{ Request::is('merk') ? 'active' : '' }}" aria-current="page">
+                    <div class="ms-4 textnav">Merk</div>
                 </a>
             </li>
             <li class="mb-1">
-                <a href="/peminjaman" class="nav-link {{ Request::is('peminjaman') ? 'active' : '' }}"
-                    aria-current="page">
-                    <div class="ms-4 textnav">Peminjaman</div>
+                <a href="/kategori" class="nav-link {{ Request::is('kategori') ? 'active' : '' }}">
+                    <div class="ms-4 textnav">Kategori</div>
                 </a>
             </li>
             <li class="mb-1">
-                <a href="/buku" class="nav-link {{ Request::is('buku') ? 'active' : '' }}">
-                    <div class="ms-4 textnav">Buku</div>
-                </a>
-            </li>
-            <li class="mb-1">
-                <a href="/anggota" class="nav-link {{ Request::is('anggota') ? 'active' : '' }}">
-                    <div class="ms-4 textnav">Anggota</div>
+                <a href="/produk" class="nav-link {{ Request::is('anggota') ? 'active' : '' }}">
+                    <div class="ms-4 textnav">Produk</div>
                 </a>
             </li>
         </ul>

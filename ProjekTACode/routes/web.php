@@ -19,4 +19,7 @@ Route::get('/', function () {
     return view('homepageView');
 });
 Route::get('/ajaxkonsumen', [KonsumenController::class, 'ajax']);
-Route::post('/ajaxkonsumen', [KonsumenController::class, 'add']);
+Route::post('/addkonsumen', [KonsumenController::class, 'add']);
+Route::post('/editkonsumen', [KonsumenController::class, 'edit']);
+Route::post('/deletekonsumen', [KonsumenController::class, 'delete']);
+
