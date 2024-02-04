@@ -1,8 +1,8 @@
-<div class="modal fade" id="Editmerk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Editkategori" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Edit Merk
+                <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Edit Kategori
                 </h5>
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
-                        <label for="nama" class="col-form-label">Merk</label>
+                        <label for="nama" class="col-form-label">Kategori</label>
                     </div>
                     <div class="col-7">
                         <input type="text" name="nama" id="namaedit" maxlength = "100" class="form-control"
@@ -25,7 +25,7 @@
                 <div class="mt-3" style="margin-bottom: 20%"></div>
                 <div class="d-flex justify-content-center mb-4">
 
-                    <input type="submit" id="editmerk" class="btn shadow rounded"
+                    <input type="submit" id="editkategori" class="btn shadow rounded"
                         style="background-color: #364F6B; color: white; width: 125px" value="Edit">
                 </div>
             </div>
@@ -35,13 +35,13 @@
 </div>
 
 <script>
-    $('#Editmerk').on('show.bs.modal', function(e) {
-        var idmerk = $(e.relatedTarget).data('id').idmerk;
-        var nama = $(e.relatedTarget).data('id').merk;
-        $(e.currentTarget).find('input[id="idedit"]').val(idmerk);
+    $('#Editkategori').on('show.bs.modal', function(e) {
+        var idkategori = $(e.relatedTarget).data('id').idkategori;
+        var nama = $(e.relatedTarget).data('id').kategori;
+        $(e.currentTarget).find('input[id="idedit"]').val(idkategori);
         $(e.currentTarget).find('input[id="namaedit"]').val(nama);
     });
-    $('#editmerk').click(function(e) {
+    $('#editkategori').click(function(e) {
         e.preventDefault();
 
         let id = $('#idedit').val();
@@ -49,7 +49,7 @@
         let token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
             type: "POST",
-            url: "/editmerk",
+            url: "/editkategori",
             data: {
                 "id": id,
                 "nama": nama,
@@ -57,7 +57,7 @@
             },
             success: function(response) {
                 search();
-                $('#Editmerk').modal('hide');
+                $('#Editkategori').modal('hide');
                 Swal.fire({
                     title: "Success",
                     icon: 'success',
@@ -82,7 +82,7 @@
             }
         });
     });
-    $('#Editmerk').on('hidden.bs.modal', function() {
+    $('#Editkategori').on('hidden.bs.modal', function() {
         $('#namaedit').val("");
         $('#alert-namaedit').removeClass('d-block');
         $('#alert-namaedit').addClass('d-none');
