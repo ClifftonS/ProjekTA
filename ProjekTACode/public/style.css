@@ -13,3 +13,6 @@
 .icon:hover {
     color: dodgerblue;
 }
+.nav-link:hover {
+    cursor: pointer;
+}

@@ -6,6 +6,8 @@ use App\Http\Controllers\KonsumenController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PenjualanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,4 +50,10 @@ Route::post('/editproduk', [ProdukController::class, 'edit']);
 Route::post('/deleteproduk', [ProdukController::class, 'delete']);
 
 Route::get('/penjualan', [HomeController::class, 'penjualan']);
+
 Route::get('/pembelian', [HomeController::class, 'pembelian']);
+Route::get('/ajaxpembelian', [PembelianController::class, 'ajax']);
+// Route::get('/ajaxprodukadd', [ProdukController::class, 'ajaxadd']);
+Route::post('/addpembelian', [PembelianController::class, 'add']);
+Route::post('/editpembelian', [PembelianController::class, 'edit']);
+Route::post('/deletepembelian', [PembelianController::class, 'delete']);
