@@ -1,0 +1,15 @@
+.textnav {
+    color: white;
+}
+/* .nav-link:hover .textnav {
+    color: dodgerblue;
+} */
+.nav-link:hover {
+    background-color: grey;
+}
+.icon {
+    color: black;
+}
+.icon:hover {
+    color: dodgerblue;
+}

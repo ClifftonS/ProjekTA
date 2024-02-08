@@ -27,7 +27,7 @@
                         <label for="merkadd" class="col-form-label">Merk</label>
                     </div>
                     <div class="col-7">
-                        <select class="form-select" id="merkadd" name="merk" style=""required>
+                        <select class="form-select" id="merkedit" name="merk" style=""required>
                         </select>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <label for="kategoriadd" class="col-form-label">Kategori</label>
                     </div>
                     <div class="col-7">
-                        <select class="form-select" id="kategoriadd" name="kategori" style=""required>
+                        <select class="form-select" id="kategoriedit" name="kategori" style=""required>
                         </select>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                         <label for="stokadd" class="col-form-label">Stok</label>
                     </div>
                     <div class="col-7">
-                        <input type="number" name="stok" id="stokadd" class="form-control"
+                        <input type="number" name="stok" id="stokedit" class="form-control"
                             style="background-color: #F4F9FF; border-radius: 10px;" placeholder="Masukkan stok"
                             required>
                     </div>
@@ -83,17 +83,17 @@
         var stok = $(e.relatedTarget).data('id').stok;
         $(e.currentTarget).find('input[id="idedit"]').val(idproduk);
         $(e.currentTarget).find('input[id="namaedit"]').val(nama);
-        $(e.currentTarget).find('input[id="stokadd"]').val(stok);
+        $(e.currentTarget).find('input[id="stokedit"]').val(stok);
 
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxprodukadd') }}",
             success: function(response) {
                 var merkSelect = $(
-                    '<select class="form-select" id="merkadd" name="merk" style="" required>');
+                    '<select class="form-select" id="merkedit" name="merk" style="" required>');
 
                 var kategoriSelect = $(
-                    '<select class="form-select" id="kategoriadd" name="kategori" style="" required>'
+                    '<select class="form-select" id="kategoriedit" name="kategori" style="" required>'
                 );
 
                 if (response.merk.length == 0) {
@@ -116,10 +116,10 @@
                     });
                 }
 
-                $('#merkadd').replaceWith(merkSelect);
-                $('#kategoriadd').replaceWith(kategoriSelect);
-                $("#kategoriadd option[value='" + kategori + "']").attr('selected', true);
-                $("#merkadd option[value='" + merk + "']").attr('selected', true);
+                $('#merkedit').replaceWith(merkSelect);
+                $('#kategoriedit').replaceWith(kategoriSelect);
+                $("#kategoriedit option[value='" + kategori + "']").attr('selected', true);
+                $("#merkedit option[value='" + merk + "']").attr('selected', true);
             }
         });
     });
@@ -128,9 +128,9 @@
 
         let id = $('#idedit').val();
         let nama = $('#namaedit').val();
-        let merk = $('#merkadd').val();
-        let kategori = $('#kategoriadd').val();
-        let stok = $('#stokadd').val();
+        let merk = $('#merkedit').val();
+        let kategori = $('#kategoriedit').val();
+        let stok = $('#stokedit').val();
         let token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
             type: "POST",
@@ -145,7 +145,7 @@
             },
             success: function(response) {
                 search();
-                $('#Editmerk').modal('hide');
+                $('#Editproduk').modal('hide');
                 Swal.fire({
                     title: "Success",
                     icon: 'success',

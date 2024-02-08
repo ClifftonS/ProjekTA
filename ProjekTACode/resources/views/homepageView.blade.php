@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>POS Berkat Mulia</title>
 
+    <link rel="stylesheet" href="{{ URL::asset('style.css') }}">
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- Bootstrap --}}
@@ -26,6 +27,136 @@
 </head>
 
 <body>
+    <div class="container-fluid g-0">
+        <div class="row g-0">
+            @include('sidebar')
+            <div class="col-10 g-0" id="content">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#dashboard').trigger('click');
+        });
+        $('#sidemaster').on('show.bs.collapse', function() {
+            $(this).prev().find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+        });
+
+        $('#sidemaster').on('hide.bs.collapse', function() {
+            $(this).prev().find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
+        });
+        $('#sidetransaksi').on('show.bs.collapse', function() {
+            $(this).prev().find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+        });
+
+        $('#sidetransaksi').on('hide.bs.collapse', function() {
+            $(this).prev().find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
+        });
+
+        $('#kategori').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/kategori",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    $("#content").html(response);
+                    $('.nav-link').removeClass('active');
+                    $('#kategori').addClass('active');
+                }
+            });
+        });
+        $('#konsumen').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/konsumen",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    $("#content").html(response);
+                    $('.nav-link').removeClass('active');
+                    $('#konsumen').addClass('active');
+                }
+            });
+        });
+        $('#merk').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/merk",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    $("#content").html(response);
+                    $('.nav-link').removeClass('active');
+                    $('#merk').addClass('active');
+                }
+            });
+        });
+        $('#produk').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/produk",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    $("#content").html(response);
+                    $('.nav-link').removeClass('active');
+                    $('#produk').addClass('active');
+                }
+            });
+        });
+        $('#penjualan').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/penjualan",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    $("#content").html(response);
+                    $('.nav-link').removeClass('active');
+                    $('#penjualan').addClass('active');
+                }
+            });
+        });
+        $('#pembelian').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/pembelian",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    $("#content").html(response);
+                    $('.nav-link').removeClass('active');
+                    $('#pembelian').addClass('active');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
