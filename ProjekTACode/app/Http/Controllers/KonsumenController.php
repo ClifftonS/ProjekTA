@@ -26,6 +26,10 @@ class KonsumenController extends Controller
         }
     }
     public function add(Request $request) {
+        // $messages = [
+        //     'required' => 'Kolom :attribute harus diisi.',
+        //     'numeric'    => ':attribute harus berupa angka.',
+        // ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:100', function ($attribute, $value, $fail) {
                 $exists = DB::table('konsumen')

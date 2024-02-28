@@ -53,7 +53,7 @@ Route::get('/penjualan', [HomeController::class, 'penjualan']);
 
 Route::get('/pembelian', [HomeController::class, 'pembelian']);
 Route::get('/ajaxpembelian', [PembelianController::class, 'ajax']);
-// Route::get('/ajaxprodukadd', [ProdukController::class, 'ajaxadd']);
+Route::get('/ajaxpembelianadd', [PembelianController::class, 'ajaxadd']);
 Route::post('/addpembelian', [PembelianController::class, 'add']);
 Route::post('/editpembelian', [PembelianController::class, 'edit']);
 Route::post('/deletepembelian', [PembelianController::class, 'delete']);

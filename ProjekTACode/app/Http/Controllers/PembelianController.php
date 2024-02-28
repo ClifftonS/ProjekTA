@@ -23,48 +23,37 @@ class PembelianController extends Controller
             ]);
         }
     }
-    // public function ajaxadd() {
-    //     $merk =  DB::table('merk')->where('delete', 0)->get();
-    //     $kategori =  DB::table('kategori')->where('delete', 0)->get();
-    //     return response()->json([
-    //         'merk'    => $merk,
-    //         'kategori'    => $kategori
-    //     ]);
-    // }
+    public function ajaxadd() {
+         $produk =  DB::table('produk')->where('delete', 0)->get();
+         return response()->json([
+             'produk'    => $produk
+         ]);
+     }
     public function add(Request $request) {
         $validator = Validator::make($request->all(), [
-            'nama'     => ['required', 'max:50', function ($attribute, $value, $fail) {
-                $exists = DB::table('produk')
-                           ->where('nama_produk', $value)
-                           ->exists();
-
-                if ($exists) {
-                    $fail('Name already exist');
-                }
-            }],
-            'merk'   => ['required', function ($attribute, $value, $fail) {
+            'produk'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
                     $fail('The merk field is required.');
                 }
             }],
-            'kategori'   => ['required', function ($attribute, $value, $fail) {
-                if ($value == "kosong") {
-                    $fail('The kategori field is required.');
-                }
-            }],
-            'stok' => 'required'
+            'tanggal' => 'required',
+            'qty' => 'required',
+            'harga' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        DB::table('produk')->insert([
-            'id_produk' => "0",
-            'id_merk' => $request->merk,
-            'id_kategori' => $request->kategori,
-            'nama_produk' => $request->nama,
-            'stok_produk' => $request->stok
+        $subtotal = $request->harga * $request->qty;
+
+        DB::table('pembelian')->insert([
+            'id_pembelian' => "0",
+            'id_produk' => $request->produk,
+            'tanggal_pembelian' => $request->tanggal,
+            'qty_pembelian' => $request->qty,
+            'harga_pembelian' => $request->harga,
+            'subtotal_pembelian ' => $subtotal
         ]);
 
         return response()->json([
@@ -75,38 +64,28 @@ class PembelianController extends Controller
     public function edit(Request $request) {
         $id = $request->id;
         $validator = Validator::make($request->all(), [
-            'nama'     => ['required', 'max:50', function ($attribute, $value, $fail) use ($id) {
-                $exists = DB::table('produk')
-                           ->where('nama_produk', $value)
-                           ->where('id_produk', '!=', $id)
-                           ->exists();
-
-                if ($exists) {
-                    $fail('Name already exist.');
-                }
-            }],
-            'merk'   => ['required', function ($attribute, $value, $fail) {
+            'produk'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
                     $fail('The merk field is required.');
                 }
             }],
-            'kategori'   => ['required', function ($attribute, $value, $fail) {
-                if ($value == "kosong") {
-                    $fail('The kategori field is required.');
-                }
-            }],
-            'stok' => 'required'
+            'tanggal' => 'required',
+            'qty' => 'required',
+            'harga' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        DB::table('produk')->where('id_produk',$id)->update([
-            'id_merk' => $request->merk,
-            'id_kategori' => $request->kategori,
-            'nama_produk' => $request->nama,
-            'stok_produk' => $request->stok
+        $subtotal = $request->harga * $request->qty;
+        
+        DB::table('pembelian')->where('id_pembelian',$id)->update([
+            'id_produk' => $request->produk,
+            'tanggal_pembelian' => $request->tanggal,
+            'qty_pembelian' => $request->qty,
+            'harga_pembelian' => $request->harga,
+            'subtotal_pembelian ' => $subtotal,
         ]);
 
         return response()->json([
@@ -115,7 +94,7 @@ class PembelianController extends Controller
         ]);
     }
     public function delete(Request $request) {
-        DB::table('produk')->where('id_produk',$request->id)->update([
+        DB::table('pembelian')->where('id_pembelian',$request->id)->update([
             'delete' => 1
         ]);
         return response()->json([

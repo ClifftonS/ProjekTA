@@ -18,12 +18,12 @@
                 <td>{{ $datatable->subtotal_pembelian }}</td>
                 <td>
                     <a data-bs-toggle="modal" data-bs-target="#Editpembelian"
-                        data-id='{"idproduk":"{{ $datatable->id_produk }}","produk":"{{ $datatable->nama_produk }}","merk":"{{ $datatable->id_merk }}","kategori":"{{ $datatable->id_kategori }}","stok":"{{ $datatable->stok_produk }}"}'
+                        data-id='{"idpembelian":"{{ $datatable->id_pembelian }}","idproduk":"{{ $datatable->id_produk }}","qty":"{{ $datatable->qty_pembelian }}","harga":"{{ $datatable->harga_pembelian }}","tanggal":"{{ $datatable->tanggal_pembelian }}"}'
                         class="edit text-decoration-none"><i class="icon fa-solid fa-pen-to-square"></i></a>
                     |
                     <a data-bs-toggle="modal" data-bs-target="#Deletepembelian"
-                        data-id='{"idproduk":"{{ $datatable->id_produk }}"}' class="delete text-decoration-none"><i
-                            class="icon fa-solid fa-trash-can"></i></a>
+                        data-id='{"idpembelian":"{{ $datatable->id_pembelian }}"}'
+                        class="delete text-decoration-none"><i class="icon fa-solid fa-trash-can"></i></a>
                 </td>
             </tr>
         @endforeach

@@ -13,7 +13,7 @@
                         <label for="produkadd" class="col-form-label">Produk</label>
                     </div>
                     <div class="col-7">
-                        <select class="form-select" id="produkadd" name="merk" style=""required>
+                        <select class="form-select" id="produkadd" name="produk" style=""required>
                         </select>
                     </div>
                 </div>
@@ -58,13 +58,13 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-2">
-                    <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd"></div>
+                    <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-hargaadd"></div>
                 </div>
 
                 <div class="mt-3" style="margin-bottom: 20%"></div>
                 <div class="d-flex justify-content-center mb-4">
 
-                    <input type="submit" id="addproduk" class="btn shadow rounded"
+                    <input type="submit" id="addpembelian" class="btn shadow rounded"
                         style="background-color: #364F6B; color: white; width: 125px" value="Tambah">
                 </div>
             </div>
@@ -76,60 +76,45 @@
     $('#hargaadd').on('keyup', function(e) {
         $(this).val(formatRupiah($(this).val()));
     });
-    $('#Addproduk').on('show.bs.modal', function(e) {
+    $('#Addpembelian').on('show.bs.modal', function(e) {
         $.ajax({
             type: "get",
-            url: "{{ url('/ajaxprodukadd') }}",
+            url: "{{ url('/ajaxpembelianadd') }}",
             success: function(response) {
-                var merkSelect = $(
-                    '<select class="form-select" id="merkadd" name="merk" style="" required>');
-
-                var kategoriSelect = $(
-                    '<select class="form-select" id="kategoriadd" name="kategori" style="" required>'
+                var produkSelect = $(
+                    '<select class="form-select" id="produkadd" name="produk" style=""required>'
                 );
 
-                if (response.merk.length == 0) {
-                    merkSelect.append('<option value="kosong">Tidak ada merk</option>');
+                if (response.produk.length == 0) {
+                    produkSelect.append('<option value="kosong">Tidak ada Produk</option>');
                 } else {
-                    $.each(response.merk, function(index, merkoption) {
-                        merkSelect.append(
-                            `<option value="${merkoption.id_merk}">${merkoption.merk}</option>`
+                    $.each(response.produk, function(index, produkoption) {
+                        produkSelect.append(
+                            `<option value="${produkoption.id_produk}">${produkoption.nama_produk}</option>`
                         );
                     });
                 }
-
-                if (response.kategori.length == 0) {
-                    kategoriSelect.append('<option value="kosong">Tidak ada kategori</option>');
-                } else {
-                    $.each(response.kategori, function(index, kategorioption) {
-                        kategoriSelect.append(
-                            `<option value="${kategorioption.id_kategori}">${kategorioption.kategori}</option>`
-                        );
-                    });
-                }
-
-                $('#merkadd').replaceWith(merkSelect);
-                $('#kategoriadd').replaceWith(kategoriSelect);
+                $('#produkadd').replaceWith(produkSelect);
 
             }
         });
     });
-    $('#addproduk').click(function(e) {
+    $('#addpembelian').click(function(e) {
         e.preventDefault();
 
-        let nama = $('#namaadd').val();
-        let merk = $('#merkadd').val();
-        let kategori = $('#kategoriadd').val();
-        let stok = $('#stokadd').val();
+        let produk = $('#namaproduk').val();
+        let tanggal = $('#tanggaladd').val();
+        let qty = $('#qtyadd').val();
+        let harga = $('#hargaadd').val();
         let token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
             type: "POST",
-            url: "/addproduk",
+            url: "/addpembelian",
             data: {
-                "nama": nama,
-                "merk": merk,
-                "kategori": kategori,
-                "stok": stok,
+                "produk": produk,
+                "tanggal": tanggal,
+                "qty": qty,
+                "harga": harga,
                 "_token": token
             },
             success: function(response) {
@@ -145,66 +130,66 @@
             },
             error: function(error) {
 
-                if (error.responseJSON.nama && error.responseJSON.nama[0]) {
+                if (error.responseJSON.produk && error.responseJSON.produk[0]) {
                     //show alert
-                    $('#alert-namaadd').removeClass('d-none');
-                    $('#alert-namaadd').addClass('d-block');
+                    $('#alert-produkadd').removeClass('d-none');
+                    $('#alert-produkadd').addClass('d-block');
                     //add message to alert
-                    $('#alert-namaadd').html(error.responseJSON.nama[0]);
+                    $('#alert-produkadd').html(error.responseJSON.produk[0]);
                 } else {
-                    $('#alert-namaadd').removeClass('d-block');
-                    $('#alert-namaadd').addClass('d-none');
+                    $('#alert-produkadd').removeClass('d-block');
+                    $('#alert-produkadd').addClass('d-none');
                 }
 
-                if (error.responseJSON.merk && error.responseJSON.merk[0]) {
+                if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
                     //show alert
-                    $('#alert-merkadd').removeClass('d-none');
-                    $('#alert-merkadd').addClass('d-block');
+                    $('#alert-tanggaladd').removeClass('d-none');
+                    $('#alert-tanggaladd').addClass('d-block');
                     //add message to alert
-                    $('#alert-merkadd').html(error.responseJSON.merk[0]);
+                    $('#alert-tanggaladd').html(error.responseJSON.tanggal[0]);
                 } else {
-                    $('#alert-merkadd').removeClass('d-block');
-                    $('#alert-merkadd').addClass('d-none');
+                    $('#alert-tanggaladd').removeClass('d-block');
+                    $('#alert-tanggaladd').addClass('d-none');
                 }
 
-                if (error.responseJSON.kategori && error.responseJSON.kategori[0]) {
+                if (error.responseJSON.qty && error.responseJSON.qty[0]) {
                     //show alert
-                    $('#alert-kategoriadd').removeClass('d-none');
-                    $('#alert-kategoriadd').addClass('d-block');
+                    $('#alert-qtyadd').removeClass('d-none');
+                    $('#alert-qtyadd').addClass('d-block');
                     //add message to alert
-                    $('#alert-kategoriadd').html(error.responseJSON.kategori[0]);
+                    $('#alert-qtyadd').html(error.responseJSON.qty[0]);
                 } else {
-                    $('#alert-kategoriadd').removeClass('d-block');
-                    $('#alert-kategoriadd').addClass('d-none');
+                    $('#alert-qtyadd').removeClass('d-block');
+                    $('#alert-qtyadd').addClass('d-none');
                 }
 
-                if (error.responseJSON.stok && error.responseJSON.stok[0]) {
+                if (error.responseJSON.harga && error.responseJSON.harga[0]) {
                     //show alert
-                    $('#alert-stokadd').removeClass('d-none');
-                    $('#alert-stokadd').addClass('d-block');
+                    $('#alert-hargaadd').removeClass('d-none');
+                    $('#alert-hargaadd').addClass('d-block');
                     //add message to alert
-                    $('#alert-stokadd').html(error.responseJSON.stok[0]);
+                    $('#alert-hargaadd').html(error.responseJSON.harga[0]);
                 } else {
-                    $('#alert-stokadd').removeClass('d-block');
-                    $('#alert-stokadd').addClass('d-none');
+                    $('#alert-hargaadd').removeClass('d-block');
+                    $('#alert-hargaadd').addClass('d-none');
                 }
 
             }
         });
     });
-    $('#Addproduk').on('hidden.bs.modal', function() {
-        $('#namaadd').val("");
-        $('#merkadd').val("");
-        $('#kategoriadd').val("");
-        $('#stokadd').val("");
-        $('#alert-namaadd').removeClass('d-block');
-        $('#alert-namaadd').addClass('d-none');
-        $('#alert-merkadd').removeClass('d-block');
-        $('#alert-merkadd').addClass('d-none');
-        $('#alert-kategoriadd').removeClass('d-block');
-        $('#alert-kategoriadd').addClass('d-none');
-        $('#alert-stokadd').removeClass('d-block');
-        $('#alert-stokadd').addClass('d-none');
+    $('#Addpembelian').on('hidden.bs.modal', function() {
+        $('#produkadd').val("");
+        $('#tanggaladd').val("");
+        $('#qtyadd').val("");
+        $('#hargaadd').val("");
+        $('#alert-produkadd').removeClass('d-block');
+        $('#alert-produkadd').addClass('d-none');
+        $('#alert-tanggaladd').removeClass('d-block');
+        $('#alert-tanggaladd').addClass('d-none');
+        $('#alert-qtyadd').removeClass('d-block');
+        $('#alert-qtyadd').addClass('d-none');
+        $('#alert-hargaadd').removeClass('d-block');
+        $('#alert-hargaadd').addClass('d-none');
     });
 
     function formatRupiah(angka, prefix) {
