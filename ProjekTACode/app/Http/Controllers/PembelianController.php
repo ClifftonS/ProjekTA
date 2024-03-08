@@ -30,16 +30,19 @@ class PembelianController extends Controller
          ]);
      }
     public function add(Request $request) {
+        $messages = [
+            'required' => ':attribute harus diisi'
+       ];
         $validator = Validator::make($request->all(), [
             'produk'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
-                    $fail('The merk field is required.');
+                    $fail('Produk tidak boleh kosong');
                 }
             }],
             'tanggal' => 'required',
             'qty' => 'required',
             'harga' => 'required'
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -63,16 +66,19 @@ class PembelianController extends Controller
     }
     public function edit(Request $request) {
         $id = $request->id;
+        $messages = [
+            'required' => ':attribute harus diisi.'
+       ];
         $validator = Validator::make($request->all(), [
             'produk'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
-                    $fail('The merk field is required.');
+                    $fail('Produk tidak boleh kosong');
                 }
             }],
             'tanggal' => 'required',
             'qty' => 'required',
             'harga' => 'required'
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);

@@ -71,5 +71,10 @@
                 </a>
             </li>
         </ul>
+
+    </div>
+    <div class="col-2 position-absolute py-4 bottom-0 text-white">
+        <hr>
+        <a href="/logout" class="text-white text-decoration-none d-flex justify-content-center">Keluar</a>
     </div>
 </div>

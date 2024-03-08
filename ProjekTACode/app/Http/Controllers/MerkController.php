@@ -23,6 +23,10 @@ class MerkController extends Controller
         }
     }
     public function add(Request $request) {
+        $messages = [
+            'required' => ':attribute harus diisi',
+           'nama.max' => 'Maximal 50 kata '
+       ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:50', function ($attribute, $value, $fail) {
                 $exists = DB::table('merk')
@@ -30,10 +34,10 @@ class MerkController extends Controller
                            ->exists();
 
                 if ($exists) {
-                    $fail('Name already exist');
+                    $fail('Nama sudah ada');
                 }
             }]
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -51,6 +55,10 @@ class MerkController extends Controller
     }
     public function edit(Request $request) {
         $id = $request->id;
+        $messages = [
+            'required' => ':attribute harus diisi',
+           'nama.max' => 'Maximal 50 kata '
+       ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:50', function ($attribute, $value, $fail) use ($id) {
                 $exists = DB::table('merk')
@@ -59,10 +67,10 @@ class MerkController extends Controller
                            ->exists();
 
                 if ($exists) {
-                    $fail('Name already exist.');
+                    $fail('Nama sudah ada');
                 }
             }]
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);

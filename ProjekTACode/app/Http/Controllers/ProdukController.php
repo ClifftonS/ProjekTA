@@ -34,6 +34,10 @@ class ProdukController extends Controller
         ]);
     }
     public function add(Request $request) {
+        $messages = [
+            'required' => ':attribute harus diisi',
+           'nama.max' => 'Maximal 50 kata '
+       ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:50', function ($attribute, $value, $fail) {
                 $exists = DB::table('produk')
@@ -41,21 +45,21 @@ class ProdukController extends Controller
                            ->exists();
 
                 if ($exists) {
-                    $fail('Name already exist');
+                    $fail('Nama sudah ada');
                 }
             }],
             'merk'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
-                    $fail('The merk field is required.');
+                    $fail('Merk tidak boleh kosong');
                 }
             }],
             'kategori'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
-                    $fail('The kategori field is required.');
+                    $fail('Kategori tidak boleh kosong');
                 }
             }],
             'stok' => 'required'
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -76,6 +80,10 @@ class ProdukController extends Controller
     }
     public function edit(Request $request) {
         $id = $request->id;
+        $messages = [
+            'required' => ':attribute harus diisi',
+           'nama.max' => 'Maximal 50 kata '
+       ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:50', function ($attribute, $value, $fail) use ($id) {
                 $exists = DB::table('produk')
@@ -89,16 +97,16 @@ class ProdukController extends Controller
             }],
             'merk'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
-                    $fail('The merk field is required.');
+                        $fail('Merk tidak boleh kosong');
                 }
             }],
             'kategori'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
-                    $fail('The kategori field is required.');
+                    $fail('Kategori tidak boleh kosong');
                 }
             }],
             'stok' => 'required'
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);

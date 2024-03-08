@@ -26,10 +26,12 @@ class KonsumenController extends Controller
         }
     }
     public function add(Request $request) {
-        // $messages = [
-        //     'required' => 'Kolom :attribute harus diisi.',
-        //     'numeric'    => ':attribute harus berupa angka.',
-        // ];
+         $messages = [
+             'required' => ':attribute harus diisi',
+            'numeric'    => ':attribute harus berupa angka',
+            'alamat.max' => 'Maximal 100 kata ',
+               'nama.max' => 'Maximal 100 kata '
+        ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:100', function ($attribute, $value, $fail) {
                 $exists = DB::table('konsumen')
@@ -37,12 +39,12 @@ class KonsumenController extends Controller
                            ->exists();
 
                 if ($exists) {
-                    $fail('Name already exist');
+                    $fail('Nama sudah ada');
                 }
             }],
             'telp'   => 'required|numeric',
             'alamat'   => 'required|max:100'
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -62,6 +64,12 @@ class KonsumenController extends Controller
     }
     public function edit(Request $request) {
         $id = $request->id;
+        $messages = [
+            'required' => ':attribute harus diisi',
+           'numeric'    => ':attribute harus berupa angka',
+           'alamat.max' => 'Maximal 100 kata ',
+           'nama.max' => 'Maximal 100 kata'
+       ];
         $validator = Validator::make($request->all(), [
             'nama'     => ['required', 'max:100', function ($attribute, $value, $fail) use ($id) {
                 $exists = DB::table('konsumen')
@@ -70,12 +78,12 @@ class KonsumenController extends Controller
                            ->exists();
 
                 if ($exists) {
-                    $fail('Name already exist.');
+                    $fail('Nama sudah ada');
                 }
             }],
             'telp'   => 'required|numeric',
             'alamat'   => 'required|max:100'
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);

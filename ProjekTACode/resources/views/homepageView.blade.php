@@ -65,9 +65,13 @@
                     "_token": token
                 },
                 success: function(response) {
-                    $("#content").html(response);
-                    $('.nav-link').removeClass('active');
-                    $('#kategori').addClass('active');
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#kategori').addClass('active');
+                    }
                 }
             });
         });
@@ -82,9 +86,13 @@
                     "_token": token
                 },
                 success: function(response) {
-                    $("#content").html(response);
-                    $('.nav-link').removeClass('active');
-                    $('#konsumen').addClass('active');
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#konsumen').addClass('active');
+                    }
                 }
             });
         });
@@ -99,9 +107,13 @@
                     "_token": token
                 },
                 success: function(response) {
-                    $("#content").html(response);
-                    $('.nav-link').removeClass('active');
-                    $('#merk').addClass('active');
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#merk').addClass('active');
+                    }
                 }
             });
         });
@@ -116,9 +128,13 @@
                     "_token": token
                 },
                 success: function(response) {
-                    $("#content").html(response);
-                    $('.nav-link').removeClass('active');
-                    $('#produk').addClass('active');
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#produk').addClass('active');
+                    }
                 }
             });
         });
@@ -133,9 +149,13 @@
                     "_token": token
                 },
                 success: function(response) {
-                    $("#content").html(response);
-                    $('.nav-link').removeClass('active');
-                    $('#penjualan').addClass('active');
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#penjualan').addClass('active');
+                    }
                 }
             });
         });
@@ -150,9 +170,13 @@
                     "_token": token
                 },
                 success: function(response) {
-                    $("#content").html(response);
-                    $('.nav-link').removeClass('active');
-                    $('#pembelian').addClass('active');
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#pembelian').addClass('active');
+                    }
                 }
             });
         });
