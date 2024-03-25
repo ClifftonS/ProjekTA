@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KonsumenController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
@@ -34,6 +35,12 @@ Route::post('/addkonsumen', [KonsumenController::class, 'add']);
 Route::post('/editkonsumen', [KonsumenController::class, 'edit']);
 Route::post('/deletekonsumen', [KonsumenController::class, 'delete']);
 
+Route::get('/supplier', [HomeController::class, 'supplier'])->middleware(['access:owner']);
+Route::get('/ajaxsupplier', [SupplierController::class, 'ajax']);
+Route::post('/addsupplier', [SupplierController::class, 'add']);
+Route::post('/editsupplier', [SupplierController::class, 'edit']);
+Route::post('/deletesupplier', [SupplierController::class, 'delete']);
+
 Route::get('/merk', [HomeController::class, 'merk'])->middleware(['access:owner']);
 Route::get('/ajaxmerk', [MerkController::class, 'ajax']);
 Route::post('/addmerk', [MerkController::class, 'add']);
@@ -54,10 +61,15 @@ Route::post('/editproduk', [ProdukController::class, 'edit']);
 Route::post('/deleteproduk', [ProdukController::class, 'delete']);
 
 Route::get('/penjualan', [HomeController::class, 'penjualan']);
+Route::get('/ajaxpenjualan', [PenjualanController::class, 'ajax']);
+Route::get('/ajaxpenjualanadd', [PenjualanController::class, 'ajaxadd']);
+Route::get('/ajaxpenjualanlihat', [PenjualanController::class, 'ajaxlihat']);
+Route::post('/addpenjualan', [PenjualanController::class, 'add']);
+Route::post('/editpenjualan', [PenjualanController::class, 'edit']);
 
 Route::get('/pembelian', [HomeController::class, 'pembelian']);
 Route::get('/ajaxpembelian', [PembelianController::class, 'ajax']);
 Route::get('/ajaxpembelianadd', [PembelianController::class, 'ajaxadd']);
+Route::get('/ajaxpembelianlihat', [PembelianController::class, 'ajaxlihat']);
 Route::post('/addpembelian', [PembelianController::class, 'add']);
 Route::post('/editpembelian', [PembelianController::class, 'edit']);
-Route::post('/deletepembelian', [PembelianController::class, 'delete']);

@@ -4,6 +4,12 @@
         <div class="col-5 me-auto">
             <input type="text" class="input form-control" id="input" placeholder="Cari disini ....">
         </div>
+        <div class="col-3 me-auto">
+            <div class="row align-items-center">
+                From <input type="date" id="tanggal1" class="form-control me-2 ms-2" style="width: 45px">
+                To<input type="date" id="tanggal2" class="form-control me-2 ms-2" style="width: 45px">
+            </div>
+        </div>
         <div class="col-auto" id="addprodukid">
             <a class="btn btn-primary mb-3" role="button" data-bs-toggle="modal" data-bs-target="#Addpembelian"
                 data-bs-placement="top" style="display: flex">Tambah</a>
@@ -14,25 +20,42 @@
 
 @include('pembelian.addpembelian')
 @include('pembelian.editpembelian')
-@include('pembelian.deletepembelian')
+@include('pembelian.lihatpembelian')
 
 
 <script>
     $(document).ready(function() {
-        search();
+
+
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $('#tanggal1').val(today);
+        $('#tanggal2').val(today);
 
         $("#input").keyup(function() {
             search();
         });
+
+        $("#tanggal1, #tanggal2").change(function() {
+            search();
+        });
+
+        search();
     });
 
     function search() {
         var strcari = $("#input").val();
+        var tgl1 = $("#tanggal1").val();
+        var tgl2 = $("#tanggal2").val();
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxpembelian') }}",
             data: {
-                name: strcari
+                name: strcari,
+                tgl1: tgl1,
+                tgl2: tgl2
             },
             success: function(response) {
                 $("#search").html(response);

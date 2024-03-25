@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
-                        <label for="supplieradd" class="col-form-label">Supplier</label>
+                        <label for="supplieradd" class="col-form-label">Konsumen</label>
                     </div>
                     <div class="col-7">
                         <select class="form-select" id="supplieradd" name="produk" style=""required>
@@ -23,7 +23,7 @@
 
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
-                        <label for="tanggaladd" class="col-form-label">Tanggal Pembelian</label>
+                        <label for="tanggaladd" class="col-form-label">Tanggal Penjualan</label>
                     </div>
                     <div class="col-7 align-self-center">
                         <input type="date" id="tanggaladd" class="form-control">
@@ -135,7 +135,7 @@
         $('.plusrow').before(newRow);
         $.ajax({
             type: "get",
-            url: "{{ url('/ajaxpembelianadd') }}",
+            url: "{{ url('/ajaxpenjualanadd') }}",
             success: function(response) {
                 var produkSelect = $(
                     '<select class="form-select" id= "produkadd' + rowNumber +
@@ -174,7 +174,7 @@
         setdate()
         $.ajax({
             type: "get",
-            url: "{{ url('/ajaxpembelianadd') }}",
+            url: "{{ url('/ajaxpenjualanadd') }}",
             success: function(response) {
                 var produkSelect = $(
                     '<select class="form-select" id="produkadd1" name="produk" style="" required>'
@@ -197,7 +197,7 @@
                 } else {
                     $.each(response.supplier, function(index, supplieroption) {
                         supplierSelect.append(
-                            `<option value="${supplieroption.id_supplier}">${supplieroption.nama}</option>`
+                            `<option value="${supplieroption.id_konsumen}">${supplieroption.nama}</option>`
                         );
                     });
                 }
@@ -233,7 +233,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/addpembelian",
+            url: "/addpenjualan",
             data: dataisi,
             success: function(response) {
                 search();

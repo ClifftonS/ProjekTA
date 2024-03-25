@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
-                        <label for="supplieredit" class="col-form-label">Supplier</label>
+                        <label for="supplieredit" class="col-form-label">Konsumen</label>
                     </div>
                     <div class="col-7">
                         <select class="form-select" id="supplieredit" name="produk" style="">
@@ -23,7 +23,7 @@
 
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
-                        <label for="tanggaledit" class="col-form-label">Tanggal Pembelian</label>
+                        <label for="tanggaledit" class="col-form-label">Tanggal Penjualan</label>
                     </div>
                     <div class="col-7 align-self-center">
                         <input type="date" id="tanggaledit" class="form-control">
@@ -99,7 +99,7 @@
         idpembelian = $(e.relatedTarget).data('id').idpembelian;
         $.ajax({
             type: "get",
-            url: "{{ url('/ajaxpembelianlihat') }}",
+            url: "{{ url('/ajaxpenjualanlihat') }}",
             data: {
                 "id": idpembelian
             },
@@ -153,14 +153,14 @@
                 } else {
                     $.each(response.supplier, function(index, supplieroption) {
                         supplierSelect.append(
-                            `<option value="${supplieroption.id_supplier}">${supplieroption.nama}</option>`
+                            `<option value="${supplieroption.id_konsumen}">${supplieroption.nama}</option>`
                         );
                     });
                 }
 
                 $('#supplieredit').replaceWith(supplierSelect);
-                $('#supplieredit').val(response.detail[0].id_supplier);
-                $('#tanggaledit').val(response.detail[0].tanggal_pembelian);
+                $('#supplieredit').val(response.detail[0].id_konsumen);
+                $('#tanggaledit').val(response.detail[0].tanggal_penjualan);
                 for (var j = 1; j <= response.detail.length; j++) {
                     var produkSelect = $(
                         '<select class="form-select" id="produkedit' + j +
@@ -226,7 +226,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/editpembelian",
+            url: "/editpenjualan",
             data: dataisi,
             success: function(response) {
                 search();

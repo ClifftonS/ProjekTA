@@ -29,12 +29,9 @@
 <body>
     <div class="container-fluid g-0">
         <div class="row g-0 vh-100 align-items-center">
-            <div class="col-6 g-0 vh-100 bg-dark align-items-center">
+            <div class="col-6 g-0 vh-100 d-flex justify-content-center bg-dark">
                 <div class="row align-items-center">
-                    <h1 class="text-white display-1 font-weight-bold d-flex justify-content-center">Berkat</h1>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center">
-                    <h1 class="text-white display-1 font-weight-bold d-flex justify-content-center">Mulia</h1>
+                    <h1 class="text-white display-1 font-weight-bold">Berkat Mulia</h1>
                 </div>
             </div>
             <div class="col-6 px-4 justify-content-center g-0">

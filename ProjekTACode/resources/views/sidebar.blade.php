@@ -28,6 +28,11 @@
                         </a>
                     </li>
                     <li class="nav-item mb-1">
+                        <a id="supplier" class="nav-link" aria-current="page">
+                            <div class=" ms-4 textnav">Supplier</div>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-1">
                         <a id="merk" class="nav-link" aria-current="page">
                             <div class="ms-4 textnav">Merk</div>
                         </a>
@@ -73,7 +78,7 @@
         </ul>
 
     </div>
-    <div class="col-2 position-absolute py-4 bottom-0 text-white">
+    <div class="col-2 position-fixed py-4 bottom-0 text-white">
         <hr>
         <a href="/logout" class="text-white text-decoration-none d-flex justify-content-center">Keluar</a>
     </div>

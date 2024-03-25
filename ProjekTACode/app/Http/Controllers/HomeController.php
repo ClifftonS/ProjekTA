@@ -12,6 +12,9 @@ class HomeController extends Controller
     public function konsumen(Request $request) {
         return view('konsumen.konsumen');
     }
+    public function supplier(Request $request) {
+        return view('supplier.supplier');
+    }
     public function merk(Request $request) {
         return view('merk.merk');
     }
