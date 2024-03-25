@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class PenjualanController extends Controller
 {
@@ -164,4 +165,10 @@ class PenjualanController extends Controller
              'supplier'    => $supplier
          ]);
     }
+    public function print($id) {
+        $detail = DB::table('penjualan')->join('detail_penjualan', 'detail_penjualan.id_penjualan','=', 'penjualan.id_penjualan')->join('konsumen', 'konsumen.id_konsumen','=', 'penjualan.id_konsumen')->join('produk', 'produk.id_produk','=', 'detail_penjualan.id_produk')->where('penjualan.id_penjualan',$id)->get();
+        $pdf = PDF::loadView('penjualan.nota', ['data' => $detail])->setPaper('a4', 'landscape');
+        return $pdf->stream($id. '.pdf');
+    }
+   
 }

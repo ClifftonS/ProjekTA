@@ -66,6 +66,7 @@ Route::get('/ajaxpenjualanadd', [PenjualanController::class, 'ajaxadd']);
 Route::get('/ajaxpenjualanlihat', [PenjualanController::class, 'ajaxlihat']);
 Route::post('/addpenjualan', [PenjualanController::class, 'add']);
 Route::post('/editpenjualan', [PenjualanController::class, 'edit']);
+Route::get('/cetaknota/{id}', [PenjualanController::class, 'print']);
 
 Route::get('/pembelian', [HomeController::class, 'pembelian']);
 Route::get('/ajaxpembelian', [PembelianController::class, 'ajax']);
@@ -73,3 +74,4 @@ Route::get('/ajaxpembelianadd', [PembelianController::class, 'ajaxadd']);
 Route::get('/ajaxpembelianlihat', [PembelianController::class, 'ajaxlihat']);
 Route::post('/addpembelian', [PembelianController::class, 'add']);
 Route::post('/editpembelian', [PembelianController::class, 'edit']);
+

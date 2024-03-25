@@ -89,15 +89,30 @@
                         <input type="text" id="totallihat" class="form-control" readonly>
                     </div>
                 </div>
+
+                <div class="mt-4"></div>
+                <div class="d-flex justify-content-center mb-4">
+
+                    <a id="cetakNota" onclick="openInNewTab(this.href); return false;"><button
+                            class="btn shadow rounded"
+                            style="background-color: #364F6B; color: white; width: 125px">Cetak Nota</button></a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    function openInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus(); // Fokuskan pada tab baru
+        win.print();
+    }
     var idpembelian = "";
     var total = 0;
     $('#Lihatpembelian').on('show.bs.modal', function(e) {
         idpembelian = $(e.relatedTarget).data('id').idpembelian;
+        var href = '/cetaknota/' + idpembelian;
+        $('#cetakNota').attr('href', href);
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxpenjualanlihat') }}",
