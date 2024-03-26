@@ -202,6 +202,48 @@
                 }
             });
         });
+        $('#laporan').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/laporan",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#laporan').addClass('active');
+                    }
+                }
+            });
+        });
+        $('#dashboard').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/dashboard",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#dashboard').addClass('active');
+                    }
+                }
+            });
+        });
     </script>
 </body>
 

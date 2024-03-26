@@ -27,4 +27,10 @@ class HomeController extends Controller
     public function pembelian(Request $request) {
         return view('pembelian.pembelian');
     }
+    public function laporan(Request $request) {
+        return view('laporan.laporan');
+    }
+    public function dashboard(Request $request) {
+        return view('dashboard.dashboard');
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +61,7 @@ Route::post('/addproduk', [ProdukController::class, 'add']);
 Route::post('/editproduk', [ProdukController::class, 'edit']);
 Route::post('/deleteproduk', [ProdukController::class, 'delete']);
 
-Route::get('/penjualan', [HomeController::class, 'penjualan']);
+Route::get('/penjualan', [HomeController::class, 'penjualan'])->middleware(['access:owner']);
 Route::get('/ajaxpenjualan', [PenjualanController::class, 'ajax']);
 Route::get('/ajaxpenjualanadd', [PenjualanController::class, 'ajaxadd']);
 Route::get('/ajaxpenjualanlihat', [PenjualanController::class, 'ajaxlihat']);
@@ -68,10 +69,14 @@ Route::post('/addpenjualan', [PenjualanController::class, 'add']);
 Route::post('/editpenjualan', [PenjualanController::class, 'edit']);
 Route::get('/cetaknota/{id}', [PenjualanController::class, 'print']);
 
-Route::get('/pembelian', [HomeController::class, 'pembelian']);
+Route::get('/pembelian', [HomeController::class, 'pembelian'])->middleware(['access:owner']);
 Route::get('/ajaxpembelian', [PembelianController::class, 'ajax']);
 Route::get('/ajaxpembelianadd', [PembelianController::class, 'ajaxadd']);
 Route::get('/ajaxpembelianlihat', [PembelianController::class, 'ajaxlihat']);
 Route::post('/addpembelian', [PembelianController::class, 'add']);
 Route::post('/editpembelian', [PembelianController::class, 'edit']);
 
+Route::get('/laporan', [HomeController::class, 'laporan'])->middleware(['access:owner']);
+Route::get('/ajaxlaporan', [LaporanController::class, 'ajax']);
+
+Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['access:owner']);
