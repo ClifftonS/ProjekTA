@@ -11,6 +11,7 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,3 +81,11 @@ Route::get('/laporan', [HomeController::class, 'laporan'])->middleware(['access:
 Route::get('/ajaxlaporan', [LaporanController::class, 'ajax']);
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['access:owner']);
+Route::get('/ajaxdashboardstok', [DashboardController::class, 'ajax1']);
+Route::get('/ajaxkonsumenter', [DashboardController::class, 'ajax2']);
+Route::get('/ajaxprodukter', [DashboardController::class, 'ajax3']);
+Route::get('/ajaxpendapatan', [DashboardController::class, 'ajax4']);
+Route::get('/chart', [DashboardController::class, 'chart']);
+Route::get('/subchart', [DashboardController::class, 'subchart']);
+
+

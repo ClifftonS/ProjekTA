@@ -1,4 +1,7 @@
 <div class="col-10 my-3 offset-1">
+    <div class="row">
+        <p class="display-6 fw-bold">Konsumen</p>
+    </div>
     <div class="row justify-content-start mb-3">
         <div class="col-auto mt-1">Cari Konsumen</div>
         <div class="col-5 me-auto">
