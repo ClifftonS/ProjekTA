@@ -163,12 +163,17 @@
         var total = 0;
         for (j; j <= rowNumber; j++) {
             var harga = $('#hargaadd' + j + '').val();
+            var hargaTanpaSeparator = harga.replace(/\./g, '');
+            var formattedNumber = hargaTanpaSeparator.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('#hargaadd' + j + '').val(formattedNumber);
             var qty = $('#qtyadd' + j + '').val();
-            var subtotal = harga * qty;
-            $('#subtotaladd' + j + '').val(subtotal);
+            var subtotal = hargaTanpaSeparator * qty;
+            $('#subtotaladd' + j + '').val(parseFloat(subtotal)
+                .toLocaleString('id-ID'));
             total += subtotal
         }
-        $('#totaladd').val(total);
+        $('#totaladd').val(parseFloat(total)
+            .toLocaleString('id-ID'));
     });
     $('#Addpembelian').on('show.bs.modal', function(e) {
         setdate()
@@ -214,7 +219,8 @@
 
         let supplier = $('#supplieradd').val();
         let tanggal = $('#tanggaladd').val();
-        let total = $('#totaladd').val();
+        let totalsep = $('#totaladd').val();
+        var total = totalsep.replace(/\./g, '');
         let token = $("meta[name='csrf-token']").attr("content");
 
         let dataisi = {
@@ -228,7 +234,7 @@
         for (let i = 1; i <= rowNumber; i++) {
             dataisi['produk' + i] = $('#produkadd' + i).val();
             dataisi['qty' + i] = $('#qtyadd' + i).val();
-            dataisi['harga' + i] = $('#hargaadd' + i).val();
+            dataisi['harga' + i] = ($('#hargaadd' + i).val()).replace(/\./g, '');
         }
 
         $.ajax({

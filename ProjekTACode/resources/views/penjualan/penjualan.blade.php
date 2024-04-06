@@ -9,8 +9,7 @@
         </div>
         <div class="col-3 me-auto">
             <div class="row align-items-center">
-                From <input type="date" id="tanggal1" class="form-control me-2 ms-2" style="width: 45px">
-                To<input type="date" id="tanggal2" class="form-control me-2 ms-2" style="width: 45px">
+                <input type="text" id="daterange" name="daterange" style="width: 230px" />
             </div>
         </div>
         <div class="col-auto" id="addprodukid">
@@ -28,20 +27,26 @@
 
 <script>
     $(document).ready(function() {
+        var today = moment();
+        $("#daterange").daterangepicker({
+            autoUpdateInput: false,
+            startDate: today,
+            endDate: today
+        });
 
+        $("#daterange").val(today.format('DD-MM-YYYY') + ' - ' + today.format('DD-MM-YYYY'));
 
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        $('#tanggal1').val(today);
-        $('#tanggal2').val(today);
+        $("#daterange").trigger('apply.daterangepicker');
 
-        $("#input").keyup(function() {
+        // Fungsi untuk menangani perubahan tanggal
+        $("#daterange").on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format(
+                'DD-MM-YYYY'));
+            // Setelah tanggal diubah, kita perlu memanggil fungsi-fungsi yang bergantung pada tanggal
             search();
         });
 
-        $("#tanggal1, #tanggal2").change(function() {
+        $("#input").keyup(function() {
             search();
         });
 
@@ -50,8 +55,9 @@
 
     function search() {
         var strcari = $("#input").val();
-        var tgl1 = $("#tanggal1").val();
-        var tgl2 = $("#tanggal2").val();
+        var dates = $("#daterange").val().split(' - ');
+        var tgl1 = dates[0];
+        var tgl2 = dates[1];
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxpenjualan') }}",

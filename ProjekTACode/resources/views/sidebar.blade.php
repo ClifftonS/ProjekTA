@@ -70,6 +70,12 @@
                 </ul>
             </li>
             <li class="mb-1">
+                <a id="stockop" class="nav-link text-white">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span class="ms-2">Stock Opname</span>
+                </a>
+            </li>
+            <li class="mb-1">
                 <a id="laporan" class="nav-link text-white">
                     <i class="fa-solid fa-file ms-2"></i>
                     <span class="ms-2">Laporan</span>

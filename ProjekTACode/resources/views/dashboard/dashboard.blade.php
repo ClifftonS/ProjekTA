@@ -5,10 +5,9 @@
                 <div class="col-4">
                     <p class="display-6 fw-bold">Dashboard</p>
                 </div>
-                <div class="col-4 ms-auto">
-                    <div class="row align-items-center">
-                        From <input type="date" id="tanggal1" class="form-control me-2 ms-2" style="width: 45px">
-                        To<input type="date" id="tanggal2" class="form-control me-2 ms-2" style="width: 45px">
+                <div class="col-5 ms-auto me-5">
+                    <div class="row">
+                        <input class="ms-auto" type="text" id="daterange" name="daterange" style="width: 230px" />
                     </div>
                 </div>
             </div>
@@ -18,7 +17,7 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Pendapatan</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. <span
                                             id="totalpenjualan"></span></div>
@@ -38,12 +37,13 @@
                             <h6 class="m-0 font-weight-bold text-primary">Kategori Terlaris</h6>
                         </div>
                         <div class="card-body">
+                            <button onclick="chart()" class="btn btn-secondary btn-sm">Kembali</button>
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row align-items-center mt-4">
+            <div class="row align-items-center mt-2">
                 <div class="col-5">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -81,22 +81,31 @@
 </div>
 
 <script>
-    var myNewChart;
     var ctx = $('#myChart');
+    var config = {
+        type: 'pie'
+    };
+    var myNewChart = new Chart(ctx, config);
     $(document).ready(function() {
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        $('#tanggal1').val(today);
-        $('#tanggal2').val(today);
+        var today = moment();
+        $("#daterange").daterangepicker({
+            autoUpdateInput: false,
+            startDate: today,
+            endDate: today
+        });
 
-        $("#tanggal1, #tanggal2").change(function() {
+        $("#daterange").val(today.format('DD-MM-YYYY') + ' - ' + today.format('DD-MM-YYYY'));
+
+        $("#daterange").trigger('apply.daterangepicker');
+        // Fungsi untuk menangani perubahan tanggal
+        $("#daterange").on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format(
+                'DD-MM-YYYY'));
+            // Setelah tanggal diubah, kita perlu memanggil fungsi-fungsi yang bergantung pada tanggal
             search2();
             search3();
             search4();
             chart();
-
         });
 
         search1();
@@ -117,8 +126,9 @@
     }
 
     function search2() {
-        var tgl1 = $("#tanggal1").val();
-        var tgl2 = $("#tanggal2").val();
+        var dates = $("#daterange").val().split(' - ');
+        var tgl1 = dates[0];
+        var tgl2 = dates[1];
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxkonsumenter') }}",
@@ -133,8 +143,9 @@
     }
 
     function search3() {
-        var tgl1 = $("#tanggal1").val();
-        var tgl2 = $("#tanggal2").val();
+        var dates = $("#daterange").val().split(' - ');
+        var tgl1 = dates[0];
+        var tgl2 = dates[1];
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxprodukter') }}",
@@ -149,8 +160,9 @@
     }
 
     function search4() {
-        var tgl1 = $("#tanggal1").val();
-        var tgl2 = $("#tanggal2").val();
+        var dates = $("#daterange").val().split(' - ');
+        var tgl1 = dates[0];
+        var tgl2 = dates[1];
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxpendapatan') }}",
@@ -159,15 +171,23 @@
                 tgl2: tgl2
             },
             success: function(response) {
-                $("#totalpenjualan").text(response.result);
+                $("#totalpenjualan").text(parseFloat(response.result).toLocaleString('id-ID'));
             }
         });
     }
 
     function chart() {
+        myNewChart.destroy();
+        var dates = $("#daterange").val().split(' - ');
+        var tgl1 = dates[0];
+        var tgl2 = dates[1];
         $.ajax({
             type: "GET",
             url: "{{ url('/chart') }}",
+            data: {
+                tgl1: tgl1,
+                tgl2: tgl2
+            },
             success: function(response) {
                 var labels = response.data.map(function(e) {
                     return e.kategori
@@ -194,6 +214,7 @@
                             var label = myNewChart.data.labels[index];
                             drillDown(label);
                         }
+
                     }
                 };
                 myNewChart = new Chart(ctx, config);
@@ -206,11 +227,16 @@
 
     function drillDown(category) {
         // Lakukan request untuk drill down ke subkategori berdasarkan kategori yang dipilih
+        var dates = $("#daterange").val().split(' - ');
+        var tgl1 = dates[0];
+        var tgl2 = dates[1];
         $.ajax({
             type: "GET",
             url: "{{ url('/subchart') }}",
             data: {
-                category: category
+                category: category,
+                tgl1: tgl1,
+                tgl2: tgl2
             },
             success: function(response) {
                 // Update pie chart dengan data subkategori

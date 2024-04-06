@@ -12,6 +12,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StockopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,7 @@ Route::get('/penjualan', [HomeController::class, 'penjualan'])->middleware(['acc
 Route::get('/ajaxpenjualan', [PenjualanController::class, 'ajax']);
 Route::get('/ajaxpenjualanadd', [PenjualanController::class, 'ajaxadd']);
 Route::get('/ajaxpenjualanlihat', [PenjualanController::class, 'ajaxlihat']);
+Route::get('/ajaxtooltip', [PenjualanController::class, 'tooltip']);
 Route::post('/addpenjualan', [PenjualanController::class, 'add']);
 Route::post('/editpenjualan', [PenjualanController::class, 'edit']);
 Route::get('/cetaknota/{id}', [PenjualanController::class, 'print']);
@@ -87,5 +89,13 @@ Route::get('/ajaxprodukter', [DashboardController::class, 'ajax3']);
 Route::get('/ajaxpendapatan', [DashboardController::class, 'ajax4']);
 Route::get('/chart', [DashboardController::class, 'chart']);
 Route::get('/subchart', [DashboardController::class, 'subchart']);
+
+Route::get('/stockop', [HomeController::class, 'stockop'])->middleware(['access:owner']);
+Route::get('/ajaxstockop', [StockopController::class, 'ajax']);
+Route::post('/addstockop', [StockopController::class, 'add']);
+Route::post('/editstockop', [StockopController::class, 'edit']);
+Route::get('/ajaxstockopadd', [StockopController::class, 'ajaxadd']);
+Route::get('/ajaxstockopaddstok', [StockopController::class, 'ajaxaddstok']);
+
 
 

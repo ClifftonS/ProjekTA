@@ -5,7 +5,7 @@
             <th class="col-2" scope="col">Konsumen</th>
             <th class="col-2" scope="col">Tanggal</th>
             <th class="col-2" scope="col">Total</th>
-            <th class="col-2" scope="col">Action</th>
+            <th class="col-1" scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -14,15 +14,17 @@
                 <td>{{ $datatable->id_penjualan }}</td>
                 <td>{{ $datatable->nama }}</td>
                 <td>{{ date('d-m-Y', strtotime($datatable->tanggal_penjualan)) }}</td>
-                <td>{{ $datatable->total_penjualan }}</td>
+                <td>{{ number_format($datatable->total_penjualan, 0, ',', '.') }}</td>
                 <td>
                     <a data-bs-toggle="modal" data-bs-target="#Editpembelian"
-                        data-id='{"idpembelian":"{{ $datatable->id_penjualan }}"}' class="edit text-decoration-none"><i
+                        data-id='{"idpembelian":"{{ $datatable->id_penjualan }}"}'
+                        class="btn px-1 py-0 btn-primary edit text-decoration-none"><i
                             class="icon fa-solid fa-pen-to-square"></i></a>
                     |
                     <a data-bs-toggle="modal" data-bs-target="#Lihatpembelian"
                         data-id='{"idpembelian":"{{ $datatable->id_penjualan }}"}'
-                        class="delete text-decoration-none"><i class="icon fa-solid fa-file"></i></a>
+                        class="btn px-1 py-0 btn-primary delete text-decoration-none"><i
+                            class="icon fa-solid fa-file"></i></a>
                 </td>
             </tr>
         @endforeach

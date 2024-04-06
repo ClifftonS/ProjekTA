@@ -8,11 +8,11 @@
     background-color: grey;
 }
 .icon {
+    color: white;
+}
+/* .icon:hover {
     color: black;
-}
-.icon:hover {
-    color: dodgerblue;
-}
+} */
 .nav-link:hover {
     cursor: pointer;
 }

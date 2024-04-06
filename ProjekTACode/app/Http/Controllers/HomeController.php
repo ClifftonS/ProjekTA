@@ -33,4 +33,7 @@ class HomeController extends Controller
     public function dashboard(Request $request) {
         return view('dashboard.dashboard');
     }
+    public function stockop(Request $request) {
+        return view('stockop.stockop');
+    }
 }

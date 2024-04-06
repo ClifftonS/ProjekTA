@@ -163,12 +163,20 @@
         var total = 0;
         for (j; j <= rowNumber; j++) {
             var harga = $('#hargaadd' + j + '').val();
+            var hargaTanpaSeparator = harga.replace(/\./g, '');
+            var formattedNumber = hargaTanpaSeparator.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('#hargaadd' + j + '').val(formattedNumber);
             var qty = $('#qtyadd' + j + '').val();
-            var subtotal = harga * qty;
-            $('#subtotaladd' + j + '').val(subtotal);
+            var subtotal = hargaTanpaSeparator * qty;
+            $('#subtotaladd' + j + '').val(parseFloat(subtotal)
+                .toLocaleString('id-ID'));
             total += subtotal
         }
-        $('#totaladd').val(total);
+        $('#totaladd').val(parseFloat(total)
+            .toLocaleString('id-ID'));
+    });
+    $(document).on('change', '#supplieradd', function() {
+        tooltp();
     });
     $('#Addpembelian').on('show.bs.modal', function(e) {
         setdate()
@@ -180,7 +188,7 @@
                     '<select class="form-select" id="produkadd1" name="produk" style="" required>'
                 );
                 var supplierSelect = $(
-                    '<select class="form-select" id="supplieradd" name="produk" style="" required>'
+                    '<select class="form-select" data-bs-toggle="tooltip" data-bs-placement="right" title="ppp" id="supplieradd" name="produk" style="" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -204,7 +212,7 @@
 
                 $('#produkadd1').replaceWith(produkSelect);
                 $('#supplieradd').replaceWith(supplierSelect);
-
+                tooltp();
             }
         });
     });
@@ -214,7 +222,8 @@
 
         let supplier = $('#supplieradd').val();
         let tanggal = $('#tanggaladd').val();
-        let total = $('#totaladd').val();
+        let totalsep = $('#totaladd').val();
+        var total = totalsep.replace(/\./g, '');
         let token = $("meta[name='csrf-token']").attr("content");
 
         let dataisi = {
@@ -228,7 +237,7 @@
         for (let i = 1; i <= rowNumber; i++) {
             dataisi['produk' + i] = $('#produkadd' + i).val();
             dataisi['qty' + i] = $('#qtyadd' + i).val();
-            dataisi['harga' + i] = $('#hargaadd' + i).val();
+            dataisi['harga' + i] = $('#hargaadd' + i).val().replace(/\./g, '');
         }
 
         $.ajax({
@@ -332,6 +341,26 @@
 
         $('#tanggaladd').val(today);
     }
+
+    function tooltp() {
+        let total = $('#supplieradd').val();
+        $.ajax({
+            type: "get",
+            data: {
+                "total": total
+            },
+            url: "{{ url('/ajaxtooltip') }}",
+            success: function(response) {
+                console.log(response.total);
+                $("#supplieradd").tooltip('dispose');
+                $('#supplieradd').attr('title', 'Pembelian ' + response.total +
+                    ' transaksi');
+                // Dispose the old tooltip
+                $("#supplieradd").tooltip("show"); // Create a new tooltip
+            }
+        });
+    }
+
 
     // function formatRupiah(angka, prefix) {
     //     var number_string = angka.replace(/[^,\d]/g, '').toString(),

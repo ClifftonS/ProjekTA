@@ -27,6 +27,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 </head>
 
 <body>
@@ -242,6 +247,27 @@
                         $("#content").html(response);
                         $('.nav-link').removeClass('active');
                         $('#dashboard').addClass('active');
+                    }
+                }
+            });
+        });
+        $('#stockop').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/stockop",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#stockop').addClass('active');
                     }
                 }
             });

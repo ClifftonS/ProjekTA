@@ -11,7 +11,7 @@
             <tr>
                 <td>{{ $datatable->nama_produk }}</td>
                 <td>{{ $datatable->total_qty }}</td>
-                <td>{{ $datatable->total_harga }}</td>
+                <td>{{ number_format($datatable->total_harga, 0, ',', '.') }}</td>
             </tr>
         @endforeach
     </tbody>

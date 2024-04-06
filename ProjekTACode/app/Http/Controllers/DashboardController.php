@@ -63,8 +63,11 @@ class DashboardController extends Controller
         ]);
     }
     public function chart(Request $request) {
-        $items = DB::table('detail_penjualan')->join('produk', 'produk.id_produk','=', 'detail_penjualan.id_produk')->join('kategori', 'kategori.id_kategori','=', 'produk.id_kategori')
+        $tgl1 = date('Y-m-d', strtotime($request->tgl1));
+        $tgl2 = date('Y-m-d', strtotime($request->tgl2));
+        $items = DB::table('detail_penjualan')->join('produk', 'produk.id_produk','=', 'detail_penjualan.id_produk')->join('kategori', 'kategori.id_kategori','=', 'produk.id_kategori')->join('penjualan', 'penjualan.id_penjualan','=', 'detail_penjualan.id_penjualan')
         ->select(DB::raw('sum(qty_detail) as jumlah, kategori.kategori'))
+        ->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)
         ->groupBy('kategori.kategori')
         ->get();
     
@@ -73,12 +76,16 @@ class DashboardController extends Controller
         ]);
     }
     public function subchart(Request $request) {
+        $tgl1 = date('Y-m-d', strtotime($request->tgl1));
+        $tgl2 = date('Y-m-d', strtotime($request->tgl2));
         $subitems = DB::table('detail_penjualan')
             ->join('produk', 'produk.id_produk', '=', 'detail_penjualan.id_produk')
             ->join('kategori', 'kategori.id_kategori', '=', 'produk.id_kategori')
             ->join('merk', 'merk.id_merk', '=', 'produk.id_merk')
+            ->join('penjualan', 'penjualan.id_penjualan','=', 'detail_penjualan.id_penjualan')
             ->select(DB::raw('sum(qty_detail) as jumlah, merk.merk'))
             ->where('kategori.kategori', $request->category)
+            ->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)
             ->groupBy('merk.merk')
             ->get();
         

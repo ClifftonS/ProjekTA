@@ -198,16 +198,19 @@
                     }
                     $('#produklihat' + j + '').replaceWith(produkSelect);
                     $('#produklihat' + j + '').val(response.detail[j - 1].id_produk);
-                    $('#hargalihat' + j + '').val(response.detail[j - 1].harga_detail);
+                    $('#hargalihat' + j + '').val(parseFloat(response.detail[j - 1].harga_detail)
+                        .toLocaleString('id-ID'));
                     $('#qtylihat' + j + '').val(response.detail[j - 1].qty_detail);
                     var harga = $('#hargalihat' + j + '').val();
+                    var hargaTanpaSeparator = harga.replace(/\./g, '');
                     var qty = $('#qtylihat' + j + '').val();
-                    var subtotal = harga * qty;
-                    $('#subtotallihat' + j + '').val(subtotal);
+                    var subtotal = hargaTanpaSeparator * qty;
+                    $('#subtotallihat' + j + '').val(parseFloat(subtotal)
+                        .toLocaleString('id-ID'));
                     total += subtotal;
-                    console.log(produkSelect);
                 }
-                $('#totallihat').val(total);
+                $('#totallihat').val(parseFloat(total)
+                    .toLocaleString('id-ID'));
 
             }
         });

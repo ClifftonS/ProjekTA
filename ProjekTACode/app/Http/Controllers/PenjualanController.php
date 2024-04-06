@@ -28,13 +28,20 @@ class PenjualanController extends Controller
         }
     }
     public function ajaxadd() {
-         $produk =  DB::table('produk')->where('delete', 0)->get();
+         $produk =  DB::table('produk')->where('stok_produk', '>', 0)->where('delete', 0)->get();
          $supplier =  DB::table('konsumen')->where('delete', 0)->get();
          return response()->json([
              'produk' => $produk,
              'supplier'    => $supplier
          ]);
      }
+     public function tooltip(Request $request) {
+        $result =   DB::table('penjualan')->join('konsumen', 'konsumen.id_konsumen','=', 'penjualan.id_konsumen')->select('konsumen.id_konsumen', DB::raw('COUNT(*) as total_trans'))->where('konsumen.id_konsumen', $request->total)->groupBy('konsumen.id_konsumen')->first();
+        $total = $result ? $result->total_trans : 0;
+        return response()->json([
+            'total' => $total
+        ]);
+    }
     public function add(Request $request) {
         $messages = [
             'tanggal.required' => 'Tanggal harus diisi',
