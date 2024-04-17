@@ -13,6 +13,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StockopController;
+use App\Http\Controllers\ReturController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,10 @@ Route::post('/addstockop', [StockopController::class, 'add']);
 Route::post('/editstockop', [StockopController::class, 'edit']);
 Route::get('/ajaxstockopadd', [StockopController::class, 'ajaxadd']);
 Route::get('/ajaxstockopaddstok', [StockopController::class, 'ajaxaddstok']);
+
+Route::get('/retur', [HomeController::class, 'retur'])->middleware(['access:owner']);
+Route::get('/ajaxretur', [ReturController::class, 'ajax']);
+Route::post('/editretur', [ReturController::class, 'edit']);
 
 
 

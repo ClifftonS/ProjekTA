@@ -272,6 +272,27 @@
                 }
             });
         });
+        $('#retur').click(function(e) {
+            e.preventDefault();
+
+            let token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "GET",
+                url: "/retur",
+                data: {
+                    "_token": token
+                },
+                success: function(response) {
+                    if (response.redirect === "loginpage") {
+                        window.location.href = "/loginpage";
+                    } else {
+                        $("#content").html(response);
+                        $('.nav-link').removeClass('active');
+                        $('#retur').addClass('active');
+                    }
+                }
+            });
+        });
     </script>
 </body>
 

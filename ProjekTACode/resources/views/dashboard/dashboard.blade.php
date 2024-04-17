@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="row d-flex justify-content-center mt-4">
-                <div class="col-5">
+                <div class="col-5 me-5">
                     <div class="card border-left-success shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
@@ -30,20 +30,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row d-flex justify-content-center mt-4">
-                <div class="col-5">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Kategori Terlaris</h6>
-                        </div>
-                        <div class="card-body">
-                            <button onclick="chart()" class="btn btn-secondary btn-sm">Kembali</button>
-                            <canvas id="myChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center mt-2">
+
+            <div class="row align-items-center mt-4">
                 <div class="col-5">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -61,6 +49,20 @@
                         </div>
                         <div class="card-body" id="search3">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center mt-2">
+                <div class="col-10 me-5">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Kategori Terlaris</h6>
+                        </div>
+                        <div class="card-body">
+                            <button onclick="chart()" class="btn btn-secondary btn-sm">Kembali</button>
+                            <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>

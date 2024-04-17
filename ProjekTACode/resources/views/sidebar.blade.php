@@ -81,6 +81,12 @@
                     <span class="ms-2">Laporan</span>
                 </a>
             </li>
+            <li class="mb-1">
+                <a id="retur" class="nav-link text-white">
+                    <i class="fa-solid fa-file ms-2"></i>
+                    <span class="ms-2">Retur</span>
+                </a>
+            </li>
         </ul>
 
     </div>

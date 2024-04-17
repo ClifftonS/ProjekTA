@@ -36,4 +36,7 @@ class HomeController extends Controller
     public function stockop(Request $request) {
         return view('stockop.stockop');
     }
+    public function retur(Request $request) {
+        return view('retur.retur');
+    }
 }

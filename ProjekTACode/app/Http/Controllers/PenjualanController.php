@@ -43,12 +43,7 @@ class PenjualanController extends Controller
         ]);
     }
     public function add(Request $request) {
-        $messages = [
-            'tanggal.required' => 'Tanggal harus diisi',
-            'qty1.required' => 'Qty harus diisi',
-            'harga1.required' => 'Harga harus diisi'
-       ];
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'produk1'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
                     $fail('Produk tidak boleh kosong');
@@ -60,9 +55,31 @@ class PenjualanController extends Controller
                 }
             }],
             'tanggal' => 'required',
-            'qty1' => 'required',
             'harga1' => 'required'
-        ],$messages);
+        ];
+        for ($j = 1; $j <= $request->jumlahdata; $j++) {
+            $produk = "produk" . '' .$j;
+            $totalsisa =  DB::table('produk')
+            ->where('id_produk', $request->$produk)
+            ->value('stok_produk');
+            $rules["qty$j"] = [
+                'required',
+                'numeric',
+                'min:1',
+                function ($attribute, $value, $fail) use ($totalsisa) {
+                    // Validasi agar qty tidak lebih besar dari totalsisa
+                    if ($value > $totalsisa) {
+                        $fail("Stok sisa ($totalsisa)");
+                    }
+                }
+            ];
+        }
+        $messages = [
+            'tanggal.required' => 'Tanggal harus diisi',
+            'qty1.required' => 'Qty harus diisi',
+            'harga1.required' => 'Harga harus diisi'
+       ];
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -100,7 +117,7 @@ class PenjualanController extends Controller
             ->value('stok_produk');
 
             DB::table('produk')->where('id_produk', $request->$produk)->update([
-                'stok_produk' => $stok_awal + $request->$qty
+                'stok_produk' => $stok_awal - $request->$qty
             ]);
         }
 

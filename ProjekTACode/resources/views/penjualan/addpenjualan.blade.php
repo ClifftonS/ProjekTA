@@ -111,7 +111,7 @@
                         <input type="number" name="qtyadd${rowNumber}" id="qtyadd${rowNumber}" min="1" class="form-control hitungTotal"
                              required>
                         <div class="row d-flex justify-content-center mt-2">
-                            <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd1"></div>
+                            <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd${rowNumber}"></div>
                         </div>
                     </div>
                     <div class="col-3 text-center">
@@ -290,16 +290,32 @@
                     $('#alert-supplieradd').addClass('d-none');
                 }
 
-                if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
-                    //show alert
-                    $('#alert-qtyadd1').removeClass('d-none');
-                    $('#alert-qtyadd1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-qtyadd1').html(error.responseJSON.qty1[0]);
-                } else {
-                    $('#alert-qtyadd1').removeClass('d-block');
-                    $('#alert-qtyadd1').addClass('d-none');
+                for (var z = 1; z <= rowNumber; z++) {
+                    var qtyField = 'qty' + z;
+                    var alertElement = $('#alert-qtyadd' + z);
+
+                    if (error.responseJSON[qtyField] && error.responseJSON[qtyField][0]) {
+                        // Show alert for current qty field
+                        alertElement.removeClass('d-none');
+                        alertElement.addClass('d-block');
+                        alertElement.html(error.responseJSON[qtyField][0]);
+                    } else {
+                        // Hide alert for current qty field
+                        alertElement.removeClass('d-block');
+                        alertElement.addClass('d-none');
+                    }
                 }
+
+                // if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
+                //     //show alert
+                //     $('#alert-qtyadd1').removeClass('d-none');
+                //     $('#alert-qtyadd1').addClass('d-block');
+                //     //add message to alert
+                //     $('#alert-qtyadd1').html(error.responseJSON.qty1[0]);
+                // } else {
+                //     $('#alert-qtyadd1').removeClass('d-block');
+                //     $('#alert-qtyadd1').addClass('d-none');
+                // }
 
                 if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
                     //show alert
@@ -360,21 +376,4 @@
             }
         });
     }
-
-
-    // function formatRupiah(angka, prefix) {
-    //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-    //         split = number_string.split(','),
-    //         sisa = split[0].length % 3,
-    //         rupiah = split[0].substr(0, sisa),
-    //         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    //     if (ribuan) {
-    //         separator = sisa ? '.' : '';
-    //         rupiah += separator + ribuan.join('.');
-    //     }
-
-    //     rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
-    //     return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-    // }
 </script>
