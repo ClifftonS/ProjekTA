@@ -37,6 +37,10 @@ class ReturController extends Controller
                 DB::table('detail_penjualan')->where('id_penjualan',$id)->where('id_produk',$request->$produk)->update([
                     'ketretur' => $request->$ket
                 ]);
+            } else {
+                DB::table('detail_penjualan')->where('id_penjualan',$id)->where('id_produk',$request->$produk)->update([
+                    'ketretur' => ""
+                ]);
             }
         }
 

@@ -11,7 +11,7 @@
                 <td>{{ $datatable->nama_produk }}
                     @foreach ($terlaris as $terlaris_produk)
                         @if ($terlaris_produk->id_produk == $datatable->id_produk)
-                            <span><i class="fa-regular fa-star"></i></span>
+                            <span>&#11088;</span>
                         @endif
                     @endforeach
                 </td>

@@ -9,7 +9,7 @@
         </div>
         <div class="col-3">
             <div class="row align-items-center">
-                <input type="text" id="daterange" name="daterange" style="width: 230px" />
+                <input type="text" id="daterange" name="daterange" style="width: 240px" readonly />
             </div>
         </div>
     </div>
@@ -28,13 +28,13 @@
             endDate: today
         });
 
-        $("#daterange").val(today.format('DD-MM-YYYY') + ' - ' + today.format('DD-MM-YYYY'));
+        $("#daterange").val(today.format('DD-MM-YYYY') + ' s/d ' + today.format('DD-MM-YYYY'));
 
         $("#daterange").trigger('apply.daterangepicker');
 
         // Fungsi untuk menangani perubahan tanggal
         $("#daterange").on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format(
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' s/d ' + picker.endDate.format(
                 'DD-MM-YYYY'));
             // Setelah tanggal diubah, kita perlu memanggil fungsi-fungsi yang bergantung pada tanggal
             search();
@@ -49,7 +49,7 @@
 
     function search() {
         var strcari = $("#input").val();
-        var dates = $("#daterange").val().split(' - ');
+        var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
         var tgl2 = dates[1];
         $.ajax({

@@ -7,7 +7,8 @@
                 </div>
                 <div class="col-5 ms-auto me-5">
                     <div class="row">
-                        <input class="ms-auto" type="text" id="daterange" name="daterange" style="width: 230px" />
+                        <input class="ms-auto" type="text" id="daterange" name="daterange" style="width: 240px"
+                            readonly />
                     </div>
                 </div>
             </div>
@@ -61,7 +62,8 @@
                             <h6 class="m-0 font-weight-bold text-primary">Kategori Terlaris</h6>
                         </div>
                         <div class="card-body">
-                            <button onclick="chart()" class="btn btn-secondary btn-sm">Kembali</button>
+                            <button onclick="chart()" id="backButton" class="btn btn-secondary btn-sm"
+                                style="display: none;">Kembali</button>
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
@@ -96,12 +98,12 @@
             endDate: today
         });
 
-        $("#daterange").val(today.format('DD-MM-YYYY') + ' - ' + today.format('DD-MM-YYYY'));
+        $("#daterange").val(today.format('DD-MM-YYYY') + ' s/d ' + today.format('DD-MM-YYYY'));
 
         $("#daterange").trigger('apply.daterangepicker');
         // Fungsi untuk menangani perubahan tanggal
         $("#daterange").on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format(
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' s/d ' + picker.endDate.format(
                 'DD-MM-YYYY'));
             // Setelah tanggal diubah, kita perlu memanggil fungsi-fungsi yang bergantung pada tanggal
             search2();
@@ -128,7 +130,7 @@
     }
 
     function search2() {
-        var dates = $("#daterange").val().split(' - ');
+        var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
         var tgl2 = dates[1];
         $.ajax({
@@ -145,7 +147,7 @@
     }
 
     function search3() {
-        var dates = $("#daterange").val().split(' - ');
+        var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
         var tgl2 = dates[1];
         $.ajax({
@@ -162,7 +164,7 @@
     }
 
     function search4() {
-        var dates = $("#daterange").val().split(' - ');
+        var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
         var tgl2 = dates[1];
         $.ajax({
@@ -180,7 +182,9 @@
 
     function chart() {
         myNewChart.destroy();
-        var dates = $("#daterange").val().split(' - ');
+        // myNewChart.options.events = ['click'];
+        $('#backButton').css('display', 'none');
+        var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
         var tgl2 = dates[1];
         $.ajax({
@@ -204,7 +208,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Kategori Terlaris',
+                            label: 'Produk Terjual',
                             data: data,
 
                         }]
@@ -228,8 +232,9 @@
     }
 
     function drillDown(category) {
+        myNewChart.options.events = ['mousemove'];
         // Lakukan request untuk drill down ke subkategori berdasarkan kategori yang dipilih
-        var dates = $("#daterange").val().split(' - ');
+        var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
         var tgl2 = dates[1];
         $.ajax({
@@ -255,6 +260,7 @@
                 myNewChart.data.labels = labels;
                 myNewChart.data.datasets[0].data = data;
                 myNewChart.update();
+                $('#backButton').css('display', 'block');
             },
             error: function(xhr) {
                 console.log(xhr.responseJSON);

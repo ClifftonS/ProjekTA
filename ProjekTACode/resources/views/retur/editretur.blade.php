@@ -61,6 +61,21 @@
     var idpembelian = "";
     var totaledit = 0;
 
+    $(document).on('change', 'input[type=checkbox][id^=cbretur]', function() {
+        // Ambil indeks row dari id checkbox
+        let index = $(this).attr('id').match(/\d+/)[0];
+        // Ambil input keterangan berdasarkan indeks row
+        let ketInput = $('#ket' + index);
+
+        // Ubah status input keterangan berdasarkan status checkbox
+        if ($(this).is(':checked')) {
+            ketInput.prop('disabled', false); // Aktifkan input keterangan
+        } else {
+            ketInput.prop('disabled', true); // Nonaktifkan input keterangan
+        }
+    });
+
+
     $('#Editretur').on('show.bs.modal', function(e) {
         idpembelian = $(e.relatedTarget).data('id').idpembelian;
         $.ajax({
@@ -92,7 +107,7 @@
                         </div>
                     </div>
                     <div class="col-5 text-center">
-                        <input type="text" class="input form-control" id="ket${i}">
+                        <input type="text" class="input form-control" id="ket${i}" disabled>
                     </div>
                 </div>
             `;
@@ -138,6 +153,7 @@
                         null) {
                         $('#ket' + j + '').val(response.detail[j - 1].ketretur);
                         $('#cbretur' + j + '').prop('checked', true);
+                        $('#ket' + j + '').prop('disabled', false);
                     }
                     var qty = $('#qtyedit' + j + '').val();
                 }
