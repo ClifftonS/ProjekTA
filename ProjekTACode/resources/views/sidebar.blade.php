@@ -1,16 +1,14 @@
 <div class="col-2 vh-100 g-0">
     <div class="col-2 vh-100 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark position-fixed">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <svg class="bi me-2" width="16" height="16">
-                <use xlink:href="#home" />
-            </svg>
+            <img src="logobm.png" class="img-fluid me-2" style="width: 25px; height: 25px;">
             <span class="fs-4">Berkat Mulia</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column Fmb-auto" id="menu">
             <li class="mb-1">
                 <a id="dashboard" class="nav-link text-white">
-                    <i class="fa-solid fa-house ms-2"></i>
+                    <i class="fa-solid fa-house ms-2 iconn"></i>
                     <span class="ms-2">Dashboard</span>
                 </a>
             </li>
@@ -18,7 +16,7 @@
                 <a href="#sidemaster" class="nav-link text-white" data-bs-toggle="collapse">
                     <i class="fa-solid fa-database ms-2"></i>
                     <span class="ms-2">Master Data</span>
-                    <i class="fa-solid fa-caret-right ms-3"></i>
+                    <i class="fa-solid fa-caret-right ms-2 iconn"></i>
 
                 </a>
                 <ul class="collapse flex-column" id="sidemaster" style="list-style-type: none;">
@@ -53,7 +51,7 @@
                 <a href="#sidetransaksi" class="nav-link text-white" data-bs-toggle="collapse">
                     <i class="fa-solid fa-wallet ms-2"></i>
                     <span class="ms-2">Transaksi</span>
-                    <i class="fa-solid fa-caret-right" style="margin-left: 34px;"></i>
+                    <i class="fa-solid fa-caret-right ms-2 iconn" style="margin-left: 34px;"></i>
 
                 </a>
                 <ul class="collapse flex-column" id="sidetransaksi" style="list-style-type: none;">
@@ -71,19 +69,19 @@
             </li>
             <li class="mb-1">
                 <a id="stockop" class="nav-link text-white">
-                    <i class="fa-solid fa-box-open"></i>
+                    <i class="fa-solid fa-box-open ms-2 iconn"></i>
                     <span class="ms-2">Stock Opname</span>
                 </a>
             </li>
             <li class="mb-1">
                 <a id="laporan" class="nav-link text-white">
-                    <i class="fa-solid fa-file ms-2"></i>
+                    <i class="fa-solid fa-file ms-2 iconn"></i>
                     <span class="ms-2">Laporan</span>
                 </a>
             </li>
             <li class="mb-1">
                 <a id="retur" class="nav-link text-white">
-                    <i class="fa-solid fa-file ms-2"></i>
+                    <i class="fa-solid fa-truck ms-2 iconn"></i>
                     <span class="ms-2">Retur</span>
                 </a>
             </li>

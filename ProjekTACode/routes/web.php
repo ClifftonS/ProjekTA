@@ -29,6 +29,7 @@ use App\Http\Controllers\ReturController;
 Route::get('/', [LoginController::class, 'get']);
 Route::post('/login', [LoginController::class, 'post']);
 Route::get('/logout', [LoginController::class, 'logout']);
+Route::get('/adduser', [LoginController::class, 'adduser']);
 Route::get('/loginpage', function () {
     return view('login');
 });

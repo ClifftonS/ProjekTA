@@ -237,78 +237,89 @@
             dataisi['harga' + i] = ($('#hargaadd' + i).val()).replace(/\./g, '');
         }
 
-        $.ajax({
-            type: "POST",
-            url: "/addpembelian",
-            data: dataisi,
-            success: function(response) {
-                search();
-                $('#Addpembelian').modal('hide');
-                Swal.fire({
-                    title: "Success",
-                    icon: 'success',
-                    title: `${response.message}`,
-                    showConfirmButton: false,
-                    timer: 2000
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda akan menambahkan transaksi pembelian ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, tambahkan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mengirimkan data menggunakan AJAX jika dikonfirmasi
+                $.ajax({
+                    type: "POST",
+                    url: "/addpembelian",
+                    data: dataisi,
+                    success: function(response) {
+                        search();
+                        $('#Addpembelian').modal('hide');
+                        Swal.fire({
+                            title: "Success",
+                            icon: 'success',
+                            title: `${response.message}`,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    },
+                    error: function(error) {
+                        if (error.responseJSON.produk1 && error.responseJSON.produk1[0]) {
+                            //show alert
+                            $('#alert-produkadd1').removeClass('d-none');
+                            $('#alert-produkadd1').addClass('d-block');
+                            //add message to alert
+                            $('#alert-produkadd1').html(error.responseJSON.produk1[0]);
+                        } else {
+                            $('#alert-produkadd1').removeClass('d-block');
+                            $('#alert-produkadd1').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
+                            //show alert
+                            $('#alert-tanggaladd').removeClass('d-none');
+                            $('#alert-tanggaladd').addClass('d-block');
+                            //add message to alert
+                            $('#alert-tanggaladd').html(error.responseJSON.tanggal[0]);
+                        } else {
+                            $('#alert-tanggaladd').removeClass('d-block');
+                            $('#alert-tanggaladd').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.supplier && error.responseJSON.supplier[0]) {
+                            //show alert
+                            $('#alert-supplieradd').removeClass('d-none');
+                            $('#alert-supplieradd').addClass('d-block');
+                            //add message to alert
+                            $('#alert-supplieradd').html(error.responseJSON.supplier[0]);
+                        } else {
+                            $('#alert-supplieradd').removeClass('d-block');
+                            $('#alert-supplieradd').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
+                            //show alert
+                            $('#alert-qtyadd1').removeClass('d-none');
+                            $('#alert-qtyadd1').addClass('d-block');
+                            //add message to alert
+                            $('#alert-qtyadd1').html(error.responseJSON.qty1[0]);
+                        } else {
+                            $('#alert-qtyadd1').removeClass('d-block');
+                            $('#alert-qtyadd1').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
+                            //show alert
+                            $('#alert-hargaadd1').removeClass('d-none');
+                            $('#alert-hargaadd1').addClass('d-block');
+                            //add message to alert
+                            $('#alert-hargaadd1').html(error.responseJSON.harga1[0]);
+                        } else {
+                            $('#alert-hargaadd1').removeClass('d-block');
+                            $('#alert-hargaadd1').addClass('d-none');
+                        }
+                    }
                 });
-            },
-            error: function(error) {
-
-                if (error.responseJSON.produk1 && error.responseJSON.produk1[0]) {
-                    //show alert
-                    $('#alert-produkadd1').removeClass('d-none');
-                    $('#alert-produkadd1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-produkadd1').html(error.responseJSON.produk1[0]);
-                } else {
-                    $('#alert-produkadd1').removeClass('d-block');
-                    $('#alert-produkadd1').addClass('d-none');
-                }
-
-                if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
-                    //show alert
-                    $('#alert-tanggaladd').removeClass('d-none');
-                    $('#alert-tanggaladd').addClass('d-block');
-                    //add message to alert
-                    $('#alert-tanggaladd').html(error.responseJSON.tanggal[0]);
-                } else {
-                    $('#alert-tanggaladd').removeClass('d-block');
-                    $('#alert-tanggaladd').addClass('d-none');
-                }
-
-                if (error.responseJSON.supplier && error.responseJSON.supplier[0]) {
-                    //show alert
-                    $('#alert-supplieradd').removeClass('d-none');
-                    $('#alert-supplieradd').addClass('d-block');
-                    //add message to alert
-                    $('#alert-supplieradd').html(error.responseJSON.supplier[0]);
-                } else {
-                    $('#alert-supplieradd').removeClass('d-block');
-                    $('#alert-supplieradd').addClass('d-none');
-                }
-
-                if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
-                    //show alert
-                    $('#alert-qtyadd1').removeClass('d-none');
-                    $('#alert-qtyadd1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-qtyadd1').html(error.responseJSON.qty1[0]);
-                } else {
-                    $('#alert-qtyadd1').removeClass('d-block');
-                    $('#alert-qtyadd1').addClass('d-none');
-                }
-
-                if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
-                    //show alert
-                    $('#alert-hargaadd1').removeClass('d-none');
-                    $('#alert-hargaadd1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-hargaadd1').html(error.responseJSON.harga1[0]);
-                } else {
-                    $('#alert-hargaadd1').removeClass('d-block');
-                    $('#alert-hargaadd1').addClass('d-none');
-                }
-
             }
         });
     });

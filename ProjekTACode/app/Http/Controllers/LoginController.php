@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -28,10 +30,20 @@ class LoginController extends Controller
 
             $clientUser = $request->input('user');
             $clientPassword = $request->input('password');
-            if ($clientUser == env('OWNERUSERNAME') && $clientPassword == env('OWNERPASSWORD')) {
-                $request->session()->put('clientAccess', 'owner');
-                return redirect('/');
-            }
+
+            $clientContent = DB::table('user')
+                    ->select('password')
+                    ->where([
+                        ['username', '=', $clientUser],
+                        // ['password', '=', $clientPassword]
+                    ])
+                    ->get();
+
+                if (Hash::check($clientPassword, $clientContent->first()->password)) {
+                    $request->session()->put('clientAccess', 'owner');
+                    return redirect('/');
+                }
+            
             //  elseif ($clientEmail == env('ADMINEMAIL') && $clientPassword == env('ADMINPASSWORD')){
             //      $request->session()->put('clientAccess', 'admin');
             //      return redirect('/admin');
@@ -57,4 +69,17 @@ class LoginController extends Controller
         $request->session()->flush();
         return redirect('/');
     }
+
+    public function adduser()
+    {
+        $passwordhash = Hash::make("Cliff44");
+        DB::table('user')->insert([
+            'username' => "bmulia",
+            'password' => $passwordhash
+        ]);
+    }
+    // public function edituser(Request $request)
+    // {
+    //     $passwordhash = Hash::make("");
+    // }
 }

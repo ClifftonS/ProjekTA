@@ -19,7 +19,7 @@ class ReturController extends Controller
         })->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->orderBy('id_penjualan', 'desc')->get();
         $c = count($results);
         if($c == 0){
-            return "<p>data tidak ada</p>";
+            return view('noresultView');
         }else{
             return view('retur.ajaxretur')->with([
                 'datasend' => $results
@@ -33,8 +33,10 @@ class ReturController extends Controller
             $produk = "produk" . '' .$i;
             $cek = "cek" . '' .$i;
             $ket = "ket" . '' .$i;
+            $date = "date" . '' .$i;
             if ($request->$cek == 1) {
                 DB::table('detail_penjualan')->where('id_penjualan',$id)->where('id_produk',$request->$produk)->update([
+                    'tglretur' => date('Y-m-d', strtotime($request->$date)),
                     'ketretur' => $request->$ket
                 ]);
             } else {

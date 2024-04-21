@@ -62,6 +62,13 @@
 </div>
 
 <script>
+    // $('#telpadd').inputmask('numeric', {
+    //     'autoGroup': true,
+    //     'digits': 0,
+    //     'allowMinus': false,
+    //     'rightAlign': false,
+    //     'groupSeparator': '.'
+    // });
     $('#telpadd').on('keyup', function(e) {
         $(this).val(formatAngka($(this).val()));
     });

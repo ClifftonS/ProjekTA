@@ -124,72 +124,86 @@
         let stoksistem = $('#stokaddsistem').val();
         let ket = $('#keteranganadd').val();
         let token = $("meta[name='csrf-token']").attr("content");
-        $.ajax({
-            type: "POST",
-            url: "/addstockop",
-            data: {
-                "nama": nama,
-                "tanggal": tanggal,
-                "stok": stok,
-                "stoksistem": stoksistem,
-                "ket": ket,
-                "_token": token
-            },
-            success: function(response) {
-                search();
-                $('#Addstockop').modal('hide');
-                Swal.fire({
-                    title: "Success",
-                    icon: 'success',
-                    title: `${response.message}`,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            },
-            error: function(error) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda akan menambahkan stock opname ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, tambahkan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mengirimkan data menggunakan AJAX jika dikonfirmasi
+                $.ajax({
+                    type: "POST",
+                    url: "/addstockop",
+                    data: {
+                        "nama": nama,
+                        "tanggal": tanggal,
+                        "stok": stok,
+                        "stoksistem": stoksistem,
+                        "ket": ket,
+                        "_token": token
+                    },
+                    success: function(response) {
+                        search();
+                        $('#Addstockop').modal('hide');
+                        Swal.fire({
+                            title: "Success",
+                            icon: 'success',
+                            title: `${response.message}`,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    },
+                    error: function(error) {
 
-                if (error.responseJSON.nama && error.responseJSON.nama[0]) {
-                    //show alert
-                    $('#alert-produkadd').removeClass('d-none');
-                    $('#alert-produkadd').addClass('d-block');
-                    //add message to alert
-                    $('#alert-produkadd').html(error.responseJSON.nama[0]);
-                } else {
-                    $('#alert-produkadd').removeClass('d-block');
-                    $('#alert-produkadd').addClass('d-none');
-                }
-                if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
-                    //show alert
-                    $('#alert-tanggaladd').removeClass('d-none');
-                    $('#alert-tanggaladd').addClass('d-block');
-                    //add message to alert
-                    $('#alert-tanggaladd').html(error.responseJSON.tanggal[0]);
-                } else {
-                    $('#alert-tanggaladd').removeClass('d-block');
-                    $('#alert-tanggaladd').addClass('d-none');
-                }
-                if (error.responseJSON.stok && error.responseJSON.stok[0]) {
-                    //show alert
-                    $('#alert-stokadd').removeClass('d-none');
-                    $('#alert-stokadd').addClass('d-block');
-                    //add message to alert
-                    $('#alert-stokadd').html(error.responseJSON.stok[0]);
-                } else {
-                    $('#alert-stokadd').removeClass('d-block');
-                    $('#alert-stokadd').addClass('d-none');
-                }
-                if (error.responseJSON.ket && error.responseJSON.ket[0]) {
-                    //show alert
-                    $('#alert-keteranganadd').removeClass('d-none');
-                    $('#alert-keteranganadd').addClass('d-block');
-                    //add message to alert
-                    $('#alert-keteranganadd').html(error.responseJSON.ket[0]);
-                } else {
-                    $('#alert-keteranganadd').removeClass('d-block');
-                    $('#alert-keteranganadd').addClass('d-none');
-                }
+                        if (error.responseJSON.nama && error.responseJSON.nama[0]) {
+                            //show alert
+                            $('#alert-produkadd').removeClass('d-none');
+                            $('#alert-produkadd').addClass('d-block');
+                            //add message to alert
+                            $('#alert-produkadd').html(error.responseJSON.nama[0]);
+                        } else {
+                            $('#alert-produkadd').removeClass('d-block');
+                            $('#alert-produkadd').addClass('d-none');
+                        }
+                        if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
+                            //show alert
+                            $('#alert-tanggaladd').removeClass('d-none');
+                            $('#alert-tanggaladd').addClass('d-block');
+                            //add message to alert
+                            $('#alert-tanggaladd').html(error.responseJSON.tanggal[0]);
+                        } else {
+                            $('#alert-tanggaladd').removeClass('d-block');
+                            $('#alert-tanggaladd').addClass('d-none');
+                        }
+                        if (error.responseJSON.stok && error.responseJSON.stok[0]) {
+                            //show alert
+                            $('#alert-stokadd').removeClass('d-none');
+                            $('#alert-stokadd').addClass('d-block');
+                            //add message to alert
+                            $('#alert-stokadd').html(error.responseJSON.stok[0]);
+                        } else {
+                            $('#alert-stokadd').removeClass('d-block');
+                            $('#alert-stokadd').addClass('d-none');
+                        }
+                        if (error.responseJSON.ket && error.responseJSON.ket[0]) {
+                            //show alert
+                            $('#alert-keteranganadd').removeClass('d-none');
+                            $('#alert-keteranganadd').addClass('d-block');
+                            //add message to alert
+                            $('#alert-keteranganadd').html(error.responseJSON.ket[0]);
+                        } else {
+                            $('#alert-keteranganadd').removeClass('d-block');
+                            $('#alert-keteranganadd').addClass('d-none');
+                        }
+                    }
+                });
             }
         });
+
     });
     $('#Addstockop').on('hidden.bs.modal', function() {
         $('#produkadd').val("");

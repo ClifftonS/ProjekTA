@@ -21,7 +21,7 @@ class StockopController extends Controller
         })->where('tgl_stockop', ">=", $tgl1)->where('tgl_stockop', "<=", $tgl2)->orderBy('id_stockop', 'desc')->get();
         $c = count($results);
         if($c == 0){
-            return "<p>data tidak ada</p>";
+            return view('noresultView');
         }else{
             return view('stockop.ajaxstockop')->with([
                 'datasend' => $results

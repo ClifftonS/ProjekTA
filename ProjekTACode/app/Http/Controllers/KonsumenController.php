@@ -18,7 +18,7 @@ class KonsumenController extends Controller
         })->get();
         $c = count($results);
         if($c == 0){
-            return "<p>data tidak ada</p>";
+            return view('noresultView');
         }else{
             return view('konsumen.ajaxkonsumen')->with([
                 'datasend' => $results

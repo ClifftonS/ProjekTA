@@ -16,7 +16,7 @@ class SupplierController extends Controller
         })->get();
         $c = count($results);
         if($c == 0){
-            return "<p>data tidak ada</p>";
+            return view('noresultView');
         }else{
             return view('supplier.ajaxsupplier')->with([
                 'datasend' => $results

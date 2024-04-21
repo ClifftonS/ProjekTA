@@ -38,7 +38,7 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Konsumen Terloyal</h6>
                         </div>
-                        <div class="card-body" id="search2">
+                        <div class="card-body text-center" id="search2">
 
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Produk Terlaris</h6>
                         </div>
-                        <div class="card-body" id="search3">
+                        <div class="card-body text-center" id="search3">
 
                         </div>
                     </div>
@@ -214,6 +214,16 @@
                         }]
                     },
                     options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Kategori',
+                                font: {
+                                    weight: 'bold',
+                                    size: 20
+                                }
+                            }
+                        },
                         onClick: function(evt, item) {
                             // Mendapatkan kategori yang dipilih
                             var index = item[0].index;
@@ -259,6 +269,7 @@
 
                 myNewChart.data.labels = labels;
                 myNewChart.data.datasets[0].data = data;
+                myNewChart.options.plugins.title.text = 'Merk';
                 myNewChart.update();
                 $('#backButton').css('display', 'block');
             },

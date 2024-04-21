@@ -20,7 +20,7 @@ class PembelianController extends Controller
         })->where('tanggal_pembelian', ">=", $tgl1)->where('tanggal_pembelian', "<=", $tgl2)->orderBy('id_pembelian', 'desc')->get();
         $c = count($results);
         if($c == 0){
-            return "<p>data tidak ada</p>";
+            return view('noresultView');
         }else{
             return view('pembelian.ajaxpembelian')->with([
                 'datasend' => $results

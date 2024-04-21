@@ -29,10 +29,11 @@
 <body>
     <div class="container-fluid g-0">
         <div class="row g-0 vh-100 align-items-center">
-            <div class="col-6 g-0 vh-100 d-flex justify-content-center bg-dark">
-                <div class="row align-items-center">
-                    <h1 class="text-white display-1 font-weight-bold">Berkat Mulia</h1>
-                </div>
+            <div class="col-6 g-0 vh-100 d-flex flex-column justify-content-center align-items-center bg-dark">
+                <img src="logobm.png" class="img-fluid" style="width: 300px; height: 300px;">
+                <h1 class="text-white display-1 font-weight-bold">Berkat Mulia</h1>
+                <p class="text-white font-weight-bold">Welcome to website!</p>
+                {{-- <a href="/adduser" class="btn btn-primary">Tambah Pengguna</a> --}}
             </div>
             <div class="col-6 px-4 justify-content-center g-0">
                 <div class="row">

@@ -37,9 +37,13 @@
                     <div class="col-4 text-center">
                         <label for="produkedit1" class="col-form-label">Produk</label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-1 text-center">
+                        <label class="col-form-label">Retur</label>
                     </div>
-                    <div class="col-5 text-center">
+                    <div class="col-3 text-center">
+                        <label class="col-form-label">Tanggal</label>
+                    </div>
+                    <div class="col-3 text-center">
                         <label for="qtyedit1" class="col-form-label">Keterangan</label>
                     </div>
                 </div>
@@ -66,12 +70,23 @@
         let index = $(this).attr('id').match(/\d+/)[0];
         // Ambil input keterangan berdasarkan indeks row
         let ketInput = $('#ket' + index);
+        let dateInput = $('#date' + index);
 
         // Ubah status input keterangan berdasarkan status checkbox
         if ($(this).is(':checked')) {
             ketInput.prop('disabled', false); // Aktifkan input keterangan
+            dateInput.prop('disabled', false);
+            var now = new Date();
+
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+            dateInput.val(today);
         } else {
             ketInput.prop('disabled', true); // Nonaktifkan input keterangan
+            dateInput.prop('disabled', true);
         }
     });
 
@@ -97,16 +112,19 @@
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-produkedit1"></div>
                         </div>
                     </div>
-                    <div class="col-3 d-flex justify-content-center align-items-center">
+                    <div class="col-1 d-flex justify-content-center align-items-center">
                         <div class="form-check">
                             
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <label class="form-check-label d-flex justify-content-center align-items-center" for="flexCheckDefault">
                                 <input class="form-check-input" data-toggle='collapse' data-target='#collapse${i}' type="checkbox" value="" id="cbretur${i}">
-                                Retur
+                                
                             </label>
                         </div>
                     </div>
-                    <div class="col-5 text-center">
+                    <div class="col-3 text-center">
+                        <input type="date" class="input form-control" id="date${i}" disabled>
+                    </div>
+                    <div class="col-3 text-center">
                         <input type="text" class="input form-control" id="ket${i}" disabled>
                     </div>
                 </div>
@@ -154,6 +172,10 @@
                         $('#ket' + j + '').val(response.detail[j - 1].ketretur);
                         $('#cbretur' + j + '').prop('checked', true);
                         $('#ket' + j + '').prop('disabled', false);
+                        $('#date' + j + '').val(response.detail[j - 1].tglretur);
+                        $('#date' + j + '').prop('disabled', false);
+                    } else {
+                        $('#date' + j + '').val("");
                     }
                     var qty = $('#qtyedit' + j + '').val();
                 }
@@ -175,84 +197,98 @@
             dataisi['produk' + i] = $('#produkedit' + i).val();
             if ($('#cbretur' + i + '').prop('checked') == true) {
                 dataisi['cek' + i] = 1;
+                dataisi['date' + i] = $('#date' + i).val();
                 dataisi['ket' + i] = $('#ket' + i).val();
             } else {
                 dataisi['cek' + i] = 0;
             }
         }
-        console.log(dataisi);
-        $.ajax({
-            type: "POST",
-            url: "/editretur",
-            data: dataisi,
-            success: function(response) {
-                search();
-                $('#Editretur').modal('hide');
-                Swal.fire({
-                    title: "Success",
-                    icon: 'success',
-                    title: `${response.message}`,
-                    showConfirmButton: false,
-                    timer: 2000
+
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda akan mengubah retur barang ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, tambahkan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mengirimkan data menggunakan AJAX jika dikonfirmasi
+                $.ajax({
+                    type: "POST",
+                    url: "/editretur",
+                    data: dataisi,
+                    success: function(response) {
+                        search();
+                        $('#Editretur').modal('hide');
+                        Swal.fire({
+                            title: "Success",
+                            icon: 'success',
+                            title: `${response.message}`,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    },
+                    error: function(error) {
+
+                        if (error.responseJSON.produk1 && error.responseJSON.produk1[0]) {
+                            //show alert
+                            $('#alert-produkedit1').removeClass('d-none');
+                            $('#alert-produkedit1').addClass('d-block');
+                            //add message to alert
+                            $('#alert-produkedit1').html(error.responseJSON.produk1[0]);
+                        } else {
+                            $('#alert-produkedit1').removeClass('d-block');
+                            $('#alert-produkedit1').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
+                            //show alert
+                            $('#alert-tanggaledit').removeClass('d-none');
+                            $('#alert-tanggaledit').addClass('d-block');
+                            //add message to alert
+                            $('#alert-tanggaledit').html(error.responseJSON.tanggal[0]);
+                        } else {
+                            $('#alert-tanggaledit').removeClass('d-block');
+                            $('#alert-tanggaledit').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.supplier && error.responseJSON.supplier[0]) {
+                            //show alert
+                            $('#alert-supplieredit').removeClass('d-none');
+                            $('#alert-supplieredit').addClass('d-block');
+                            //add message to alert
+                            $('#alert-supplieredit').html(error.responseJSON.supplier[0]);
+                        } else {
+                            $('#alert-supplieredit').removeClass('d-block');
+                            $('#alert-supplieredit').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
+                            //show alert
+                            $('#alert-qtyedit1').removeClass('d-none');
+                            $('#alert-qtyedit1').addClass('d-block');
+                            //add message to alert
+                            $('#alert-qtyedit1').html(error.responseJSON.qty1[0]);
+                        } else {
+                            $('#alert-qtyedit1').removeClass('d-block');
+                            $('#alert-qtyedit1').addClass('d-none');
+                        }
+
+                        if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
+                            //show alert
+                            $('#alert-hargaedit1').removeClass('d-none');
+                            $('#alert-hargaedit1').addClass('d-block');
+                            //add message to alert
+                            $('#alert-hargaedit1').html(error.responseJSON.harga1[0]);
+                        } else {
+                            $('#alert-hargaedit1').removeClass('d-block');
+                            $('#alert-hargaedit1').addClass('d-none');
+                        }
+
+                    }
                 });
-            },
-            error: function(error) {
-
-                if (error.responseJSON.produk1 && error.responseJSON.produk1[0]) {
-                    //show alert
-                    $('#alert-produkedit1').removeClass('d-none');
-                    $('#alert-produkedit1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-produkedit1').html(error.responseJSON.produk1[0]);
-                } else {
-                    $('#alert-produkedit1').removeClass('d-block');
-                    $('#alert-produkedit1').addClass('d-none');
-                }
-
-                if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
-                    //show alert
-                    $('#alert-tanggaledit').removeClass('d-none');
-                    $('#alert-tanggaledit').addClass('d-block');
-                    //add message to alert
-                    $('#alert-tanggaledit').html(error.responseJSON.tanggal[0]);
-                } else {
-                    $('#alert-tanggaledit').removeClass('d-block');
-                    $('#alert-tanggaledit').addClass('d-none');
-                }
-
-                if (error.responseJSON.supplier && error.responseJSON.supplier[0]) {
-                    //show alert
-                    $('#alert-supplieredit').removeClass('d-none');
-                    $('#alert-supplieredit').addClass('d-block');
-                    //add message to alert
-                    $('#alert-supplieredit').html(error.responseJSON.supplier[0]);
-                } else {
-                    $('#alert-supplieredit').removeClass('d-block');
-                    $('#alert-supplieredit').addClass('d-none');
-                }
-
-                if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
-                    //show alert
-                    $('#alert-qtyedit1').removeClass('d-none');
-                    $('#alert-qtyedit1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-qtyedit1').html(error.responseJSON.qty1[0]);
-                } else {
-                    $('#alert-qtyedit1').removeClass('d-block');
-                    $('#alert-qtyedit1').addClass('d-none');
-                }
-
-                if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
-                    //show alert
-                    $('#alert-hargaedit1').removeClass('d-none');
-                    $('#alert-hargaedit1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-hargaedit1').html(error.responseJSON.harga1[0]);
-                } else {
-                    $('#alert-hargaedit1').removeClass('d-block');
-                    $('#alert-hargaedit1').addClass('d-none');
-                }
-
             }
         });
     });

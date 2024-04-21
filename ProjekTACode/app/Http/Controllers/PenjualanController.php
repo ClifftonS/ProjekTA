@@ -20,7 +20,7 @@ class PenjualanController extends Controller
         })->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->orderBy('id_penjualan', 'desc')->get();
         $c = count($results);
         if($c == 0){
-            return "<p>data tidak ada</p>";
+            return view('noresultView');
         }else{
             return view('penjualan.ajaxpenjualan')->with([
                 'datasend' => $results
