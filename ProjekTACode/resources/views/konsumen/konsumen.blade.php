@@ -12,7 +12,7 @@
                 data-bs-placement="top" style="display: flex">Tambah</a>
         </div>
     </div>
-    <div class="search d-flex justify-content-center" id="search"></div>
+    <div class="search" id="search"></div>
 </div>
 
 @include('konsumen.addkonsumen')
@@ -22,9 +22,14 @@
 
 <script>
     $(document).ready(function() {
-        search();
+        var page = 1;
+        search(page);
         $("#input").keyup(function() {
-            search();
+            search(page);
+        });
+        $(document).on('click', '.page-link', function() {
+            var page = $(this).text(); // Dapatkan nomor halaman dari teks tombol
+            search(page);
         });
     });
 
@@ -33,13 +38,14 @@
         return number_string;
     }
 
-    function search() {
+    function search(page) {
         var strcari = $("#input").val();
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxkonsumen') }}",
             data: {
-                name: strcari
+                name: strcari,
+                page: page
             },
             success: function(response) {
                 $("#search").html(response);

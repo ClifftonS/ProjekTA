@@ -39,15 +39,19 @@ class LoginController extends Controller
                     ])
                     ->get();
 
-                if (Hash::check($clientPassword, $clientContent->first()->password)) {
-                    $request->session()->put('clientAccess', 'owner');
-                    return redirect('/');
-                }
+                    if ($clientContent->count() > 0) {
+                        if (Hash::check($clientPassword, $clientContent->first()->password)) {
+                            $request->session()->put('clientAccess', 'owner');
+                            return redirect('/');
+                        }
+                        //  elseif ($clientEmail == env('ADMINEMAIL') && $clientPassword == env('ADMINPASSWORD')){
+                        //      $request->session()->put('clientAccess', 'admin');
+                        //      return redirect('/admin');
+                        //  }
+                    }
+                
             
-            //  elseif ($clientEmail == env('ADMINEMAIL') && $clientPassword == env('ADMINPASSWORD')){
-            //      $request->session()->put('clientAccess', 'admin');
-            //      return redirect('/admin');
-            //  }
+           
             return redirect()->back()->withErrors(['invalidLogin' => 'Email atau Kata Sandi salah']);
         }
     }

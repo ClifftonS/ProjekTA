@@ -36,7 +36,7 @@
                 "_token": token
             },
             success: function(response) {
-                search();
+                search(1);
                 $('#Deletekategori').modal('hide');
                 Swal.fire({
                     title: "Success",

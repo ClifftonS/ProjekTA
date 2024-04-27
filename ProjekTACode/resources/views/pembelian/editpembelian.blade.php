@@ -233,7 +233,7 @@
             url: "/editpembelian",
             data: dataisi,
             success: function(response) {
-                search();
+                search(1);
                 $('#Editpembelian').modal('hide');
                 Swal.fire({
                     title: "Success",

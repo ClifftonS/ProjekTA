@@ -89,7 +89,7 @@
                 "_token": token
             },
             success: function(response) {
-                search();
+                search(1);
                 $('#Addkonsumen').modal('hide');
                 Swal.fire({
                     title: "Success",

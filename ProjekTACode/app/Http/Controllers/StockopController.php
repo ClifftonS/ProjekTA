@@ -11,22 +11,44 @@ class StockopController extends Controller
         $name = $request->name;
         $tgl1 = date('Y-m-d', strtotime($request->tgl1));
         $tgl2 = date('Y-m-d', strtotime($request->tgl2));
-        $results =  DB::table('stock_opname')->join('produk', 'produk.id_produk','=', 'stock_opname.id_produk')->where(function($query) use ($name) {
+
+        $perPage = 12; // Number of items per page
+        $totalUsers = DB::table('stock_opname')->join('produk', 'produk.id_produk','=', 'stock_opname.id_produk')->where(function($query) use ($name) {
             $query->where('id_stockop', 'LIKE', '%' . $name . '%')
                   ->orWhere('keterangan', 'LIKE', '%' . $name . '%')
                   ->orWhere('tgl_stockop', 'LIKE', '%' . $name . '%')
                   ->orWhere('jumlah_sistem', 'LIKE', '%' . $name . '%')
                   ->orWhere('jumlah_hitung', 'LIKE', '%' . $name . '%')
                   ->orWhere('nama_produk', 'LIKE', '%' . $name . '%');
-        })->where('tgl_stockop', ">=", $tgl1)->where('tgl_stockop', "<=", $tgl2)->orderBy('id_stockop', 'desc')->get();
-        $c = count($results);
-        if($c == 0){
-            return view('noresultView');
-        }else{
-            return view('stockop.ajaxstockop')->with([
-                'datasend' => $results
-            ]);
-        }
+        })->where('tgl_stockop', ">=", $tgl1)->where('tgl_stockop', "<=", $tgl2)->count(); // Total number of users where DELETE_USER is 0
+        $totalPages = ceil($totalUsers / $perPage); // Calculate total pages
+    
+        // Get the current page from the query string, default to 1 if not set
+        $currentPage = $request->page;
+    
+        // Calculate the offset for the query
+        $offset = ($currentPage - 1) * $perPage;
+    
+        // Fetch users for the current page
+        $results = DB::table('stock_opname')->join('produk', 'produk.id_produk','=', 'stock_opname.id_produk')->where(function($query) use ($name) {
+            $query->where('id_stockop', 'LIKE', '%' . $name . '%')
+                  ->orWhere('keterangan', 'LIKE', '%' . $name . '%')
+                  ->orWhere('tgl_stockop', 'LIKE', '%' . $name . '%')
+                  ->orWhere('jumlah_sistem', 'LIKE', '%' . $name . '%')
+                  ->orWhere('jumlah_hitung', 'LIKE', '%' . $name . '%')
+                  ->orWhere('nama_produk', 'LIKE', '%' . $name . '%');
+        })->where('tgl_stockop', ">=", $tgl1)->where('tgl_stockop', "<=", $tgl2)->orderBy('id_stockop', 'desc')->offset($offset)->limit($perPage)->get();
+    
+            $c = count($results);
+            if($c == 0){
+                return view('noresultView');
+            }else{
+                return view('stockop.ajaxstockop')->with([
+                    'datasend' => $results,
+                    'totalPages' => $totalPages,
+            'currentPage' => $currentPage
+                ]);
+            }
     }
     public function ajaxadd() {
         $produk =  DB::table('produk')->where('delete', 0)->get();

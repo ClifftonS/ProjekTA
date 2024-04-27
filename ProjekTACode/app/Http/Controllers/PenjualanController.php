@@ -12,20 +12,40 @@ class PenjualanController extends Controller
         $name = $request->name;
         $tgl1 = date('Y-m-d', strtotime($request->tgl1));
         $tgl2 = date('Y-m-d', strtotime($request->tgl2));
-        $results =  DB::table('penjualan')->join('konsumen', 'konsumen.id_konsumen','=', 'penjualan.id_konsumen')->where(function($query) use ($name) {
+
+        $perPage = 12; // Number of items per page
+        $totalUsers = DB::table('penjualan')->join('konsumen', 'konsumen.id_konsumen','=', 'penjualan.id_konsumen')->where(function($query) use ($name) {
             $query->where('id_penjualan', 'LIKE', '%' . $name . '%')
                   ->orWhere('nama', 'LIKE', '%' . $name . '%')
                   ->orWhere('total_penjualan', 'LIKE', '%' . $name . '%')
                   ->orWhere('tanggal_penjualan', 'LIKE', '%' . $name . '%');
-        })->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->orderBy('id_penjualan', 'desc')->get();
-        $c = count($results);
-        if($c == 0){
-            return view('noresultView');
-        }else{
-            return view('penjualan.ajaxpenjualan')->with([
-                'datasend' => $results
-            ]);
-        }
+        })->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->count(); // Total number of users where DELETE_USER is 0
+        $totalPages = ceil($totalUsers / $perPage); // Calculate total pages
+    
+        // Get the current page from the query string, default to 1 if not set
+        $currentPage = $request->page;
+    
+        // Calculate the offset for the query
+        $offset = ($currentPage - 1) * $perPage;
+    
+        // Fetch users for the current page
+        $results = DB::table('penjualan')->join('konsumen', 'konsumen.id_konsumen','=', 'penjualan.id_konsumen')->where(function($query) use ($name) {
+            $query->where('id_penjualan', 'LIKE', '%' . $name . '%')
+                  ->orWhere('nama', 'LIKE', '%' . $name . '%')
+                  ->orWhere('total_penjualan', 'LIKE', '%' . $name . '%')
+                  ->orWhere('tanggal_penjualan', 'LIKE', '%' . $name . '%');
+        })->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->orderBy('id_penjualan', 'desc')->offset($offset)->limit($perPage)->get();
+    
+            $c = count($results);
+            if($c == 0){
+                return view('noresultView');
+            }else{
+                return view('penjualan.ajaxpenjualan')->with([
+                    'datasend' => $results,
+                    'totalPages' => $totalPages,
+            'currentPage' => $currentPage
+                ]);
+            }
     }
     public function ajaxadd() {
          $produk =  DB::table('produk')->where('stok_produk', '>', 0)->where('delete', 0)->get();

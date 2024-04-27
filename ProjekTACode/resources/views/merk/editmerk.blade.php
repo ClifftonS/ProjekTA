@@ -56,7 +56,7 @@
                 "_token": token
             },
             success: function(response) {
-                search();
+                search(1);
                 $('#Editmerk').modal('hide');
                 Swal.fire({
                     title: "Success",

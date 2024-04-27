@@ -10,20 +10,39 @@ class KonsumenController extends Controller
 {
     public function ajax(Request $request) {
         $name = $request->name;
-        $results =  DB::table('konsumen')->where('delete', 0)->where(function($query) use ($name) {
+        $perPage = 12; // Number of items per page
+        $totalUsers = DB::table('konsumen')->where('delete', 0)->where(function($query) use ($name) {
             $query->where('id_konsumen', 'LIKE', '%' . $name . '%')
                   ->orWhere('nama', 'LIKE', '%' . $name . '%')
                   ->orWhere('telp', 'LIKE', '%' . $name . '%')
                   ->orWhere('alamat', 'LIKE', '%' . $name . '%');
-        })->get();
-        $c = count($results);
-        if($c == 0){
-            return view('noresultView');
-        }else{
-            return view('konsumen.ajaxkonsumen')->with([
-                'datasend' => $results
-            ]);
-        }
+        })->count(); // Total number of users where DELETE_USER is 0
+        $totalPages = ceil($totalUsers / $perPage); // Calculate total pages
+    
+        // Get the current page from the query string, default to 1 if not set
+        $currentPage = $request->page;
+    
+        // Calculate the offset for the query
+        $offset = ($currentPage - 1) * $perPage;
+    
+        // Fetch users for the current page
+        $results = DB::table('konsumen')->where('delete', 0)->where(function($query) use ($name) {
+            $query->where('id_konsumen', 'LIKE', '%' . $name . '%')
+                  ->orWhere('nama', 'LIKE', '%' . $name . '%')
+                  ->orWhere('telp', 'LIKE', '%' . $name . '%')
+                  ->orWhere('alamat', 'LIKE', '%' . $name . '%');
+        })->offset($offset)->limit($perPage)->get();
+    
+            $c = count($results);
+            if($c == 0){
+                return view('noresultView');
+            }else{
+                return view('konsumen.ajaxkonsumen')->with([
+                    'datasend' => $results,
+                    'totalPages' => $totalPages,
+            'currentPage' => $currentPage
+                ]);
+            }
     }
     public function add(Request $request) {
          $messages = [

@@ -1,18 +1,33 @@
-<table class="table table-hover table-bordered text-center table-striped align-middle">
-    <thead class="table-dark">
-        <tr>
-            <th class="col-2" scope="col">Produk</th>
-            <th class="col-2" scope="col">Jumlah</th>
-            <th class="col-2" scope="col">Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($datasend as $datatable)
+<div class="row">
+    <table class="table table-hover table-bordered text-center table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>{{ $datatable->nama_produk }}</td>
-                <td>{{ $datatable->total_qty }}</td>
-                <td>{{ number_format($datatable->total_harga, 0, ',', '.') }}</td>
+                <th class="col-2" scope="col">Produk</th>
+                <th class="col-2" scope="col">Jumlah</th>
+                <th class="col-2" scope="col">Total</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($datasend as $datatable)
+                <tr>
+                    <td>{{ $datatable->nama_produk }}</td>
+                    <td>{{ $datatable->total_qty }}</td>
+                    <td>{{ number_format($datatable->total_harga, 0, ',', '.') }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@if ($totalPages > 1)
+    <div class="row">
+        <nav aria-label="...">
+            <ul class="pagination d-flex justify-content-center">
+                @for ($page = 1; $page <= $totalPages; $page++)
+                    <li class="page-item @if ($currentPage == $page) active @endif" style="cursor: pointer;">
+                        <a class="page-link">{{ $page }}</a>
+                    </li>
+                @endfor
+            </ul>
+        </nav>
+    </div>
+@endif

@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="search d-flex justify-content-center" id="search"></div>
+    <div class="search" id="search"></div>
 </div>
 
 @include('retur.editretur')
@@ -22,6 +22,7 @@
 <script>
     $(document).ready(function() {
         var today = moment();
+        var page = 1;
         $("#daterange").daterangepicker({
             autoUpdateInput: false,
             startDate: today,
@@ -37,17 +38,20 @@
             $(this).val(picker.startDate.format('DD-MM-YYYY') + ' s/d ' + picker.endDate.format(
                 'DD-MM-YYYY'));
             // Setelah tanggal diubah, kita perlu memanggil fungsi-fungsi yang bergantung pada tanggal
-            search();
+            search(page);
         });
 
+        search(page);
         $("#input").keyup(function() {
-            search();
+            search(page);
         });
-
-        search();
+        $(document).on('click', '.page-link', function() {
+            var page = $(this).text(); // Dapatkan nomor halaman dari teks tombol
+            search(page);
+        });
     });
 
-    function search() {
+    function search(page) {
         var strcari = $("#input").val();
         var dates = $("#daterange").val().split(' s/d ');
         var tgl1 = dates[0];
@@ -58,7 +62,8 @@
             data: {
                 name: strcari,
                 tgl1: tgl1,
-                tgl2: tgl2
+                tgl2: tgl2,
+                page: page
             },
             success: function(response) {
                 $("#search").html(response);

@@ -95,7 +95,7 @@
                 "_token": token
             },
             success: function(response) {
-                search();
+                search(1);
                 $('#Editkonsumen').modal('hide');
                 Swal.fire({
                     title: "Success",

@@ -220,7 +220,7 @@
                     url: "/editretur",
                     data: dataisi,
                     success: function(response) {
-                        search();
+                        search(1);
                         $('#Editretur').modal('hide');
                         Swal.fire({
                             title: "Success",

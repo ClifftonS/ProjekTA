@@ -16,7 +16,7 @@ class AccessAuthenticator
     {
         if($request->session()->get('clientAccess') != $access){
             $request->session()->flush();
-            return response()->json(['redirect' => 'loginpage']);
+            return redirect('/loginpage');
         }
         return $next($request);
     }

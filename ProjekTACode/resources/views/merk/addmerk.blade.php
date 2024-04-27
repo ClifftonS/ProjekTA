@@ -47,7 +47,7 @@
                 "_token": token
             },
             success: function(response) {
-                search();
+                search(1);
                 $('#Addmerk').modal('hide');
                 Swal.fire({
                     title: "Success",

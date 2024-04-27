@@ -12,20 +12,39 @@ class PembelianController extends Controller
         $name = $request->name;
         $tgl1 = date('Y-m-d', strtotime($request->tgl1));
         $tgl2 = date('Y-m-d', strtotime($request->tgl2));
-        $results =  DB::table('pembelian')->join('supplier', 'supplier.id_supplier','=', 'pembelian.id_supplier')->where(function($query) use ($name) {
+        $perPage = 12; // Number of items per page
+        $totalUsers = DB::table('pembelian')->join('supplier', 'supplier.id_supplier','=', 'pembelian.id_supplier')->where(function($query) use ($name) {
             $query->where('id_pembelian', 'LIKE', '%' . $name . '%')
                   ->orWhere('nama', 'LIKE', '%' . $name . '%')
                   ->orWhere('total_pembelian', 'LIKE', '%' . $name . '%')
                   ->orWhere('tanggal_pembelian', 'LIKE', '%' . $name . '%');
-        })->where('tanggal_pembelian', ">=", $tgl1)->where('tanggal_pembelian', "<=", $tgl2)->orderBy('id_pembelian', 'desc')->get();
-        $c = count($results);
-        if($c == 0){
-            return view('noresultView');
-        }else{
-            return view('pembelian.ajaxpembelian')->with([
-                'datasend' => $results
-            ]);
-        }
+        })->where('tanggal_pembelian', ">=", $tgl1)->where('tanggal_pembelian', "<=", $tgl2)->count(); // Total number of users where DELETE_USER is 0
+        $totalPages = ceil($totalUsers / $perPage); // Calculate total pages
+    
+        // Get the current page from the query string, default to 1 if not set
+        $currentPage = $request->page;
+    
+        // Calculate the offset for the query
+        $offset = ($currentPage - 1) * $perPage;
+    
+        // Fetch users for the current page
+        $results = DB::table('pembelian')->join('supplier', 'supplier.id_supplier','=', 'pembelian.id_supplier')->where(function($query) use ($name) {
+            $query->where('id_pembelian', 'LIKE', '%' . $name . '%')
+                  ->orWhere('nama', 'LIKE', '%' . $name . '%')
+                  ->orWhere('total_pembelian', 'LIKE', '%' . $name . '%')
+                  ->orWhere('tanggal_pembelian', 'LIKE', '%' . $name . '%');
+        })->where('tanggal_pembelian', ">=", $tgl1)->where('tanggal_pembelian', "<=", $tgl2)->orderBy('id_pembelian', 'desc')->offset($offset)->limit($perPage)->get();
+    
+            $c = count($results);
+            if($c == 0){
+                return view('noresultView');
+            }else{
+                return view('pembelian.ajaxpembelian')->with([
+                    'datasend' => $results,
+                    'totalPages' => $totalPages,
+            'currentPage' => $currentPage
+                ]);
+            }
     }
     public function ajaxadd() {
          $produk =  DB::table('produk')->where('delete', 0)->get();

@@ -256,7 +256,7 @@
                     url: "/addpenjualan",
                     data: dataisi,
                     success: function(response) {
-                        search();
+                        search(1);
                         $('#Addpembelian').modal('hide');
                         Swal.fire({
                             title: "Success",
