@@ -26,7 +26,8 @@
                         <label for="tanggaledit" class="col-form-label">Tanggal Penjualan</label>
                     </div>
                     <div class="col-7 align-self-center">
-                        <input type="date" id="tanggaledit" class="form-control">
+                        <input type="date" id="tanggaledit" class="form-control"
+                            style="background-color: #F4F9FF; border-radius: 10px;">
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-2">
@@ -146,7 +147,7 @@
                 }
 
                 var supplierSelect = $(
-                    '<select class="form-select" id="supplieredit" name="produk" style="" readonly>'
+                    '<select class="form-select" id="supplieredit" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" readonly>'
                 );
                 if (response.supplier.length == 0) {
                     supplierSelect.append('<option value="kosong">Tidak ada supplier</option>');
@@ -194,18 +195,6 @@
             }
         });
     });
-    // $(document).on('input', '.hitungTotal', function() {
-    //     var j = 1;
-    //     var total = 0;
-    //     for (j; j <= rowNumber; j++) {
-    //         var harga = $('#hargaedit' + j + '').val();
-    //         var qty = $('#qtyedit' + j + '').val();
-    //         var subtotal = harga * qty;
-    //         $('#subtotaledit' + j + '').val(subtotal);
-    //         total += subtotal
-    //     }
-    //     $('#totaledit').val(total);
-    // });
     $('#editpembelian').click(function(e) {
         e.preventDefault();
 
@@ -221,12 +210,6 @@
             "id": idpembelian,
             "_token": token
         };
-
-        for (let i = 1; i <= rowNumber; i++) {
-            dataisi['produk' + i] = $('#produkedit' + i).val();
-            dataisi['qty' + i] = $('#qtyedit' + i).val();
-            dataisi['harga' + i] = $('#hargaedit' + i).val();
-        }
 
         $.ajax({
             type: "POST",
@@ -245,16 +228,16 @@
             },
             error: function(error) {
 
-                if (error.responseJSON.produk1 && error.responseJSON.produk1[0]) {
-                    //show alert
-                    $('#alert-produkedit1').removeClass('d-none');
-                    $('#alert-produkedit1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-produkedit1').html(error.responseJSON.produk1[0]);
-                } else {
-                    $('#alert-produkedit1').removeClass('d-block');
-                    $('#alert-produkedit1').addClass('d-none');
-                }
+                // if (error.responseJSON.produk1 && error.responseJSON.produk1[0]) {
+                //     //show alert
+                //     $('#alert-produkedit1').removeClass('d-none');
+                //     $('#alert-produkedit1').addClass('d-block');
+                //     //add message to alert
+                //     $('#alert-produkedit1').html(error.responseJSON.produk1[0]);
+                // } else {
+                //     $('#alert-produkedit1').removeClass('d-block');
+                //     $('#alert-produkedit1').addClass('d-none');
+                // }
 
                 if (error.responseJSON.tanggal && error.responseJSON.tanggal[0]) {
                     //show alert
@@ -278,27 +261,27 @@
                     $('#alert-supplieredit').addClass('d-none');
                 }
 
-                if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
-                    //show alert
-                    $('#alert-qtyedit1').removeClass('d-none');
-                    $('#alert-qtyedit1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-qtyedit1').html(error.responseJSON.qty1[0]);
-                } else {
-                    $('#alert-qtyedit1').removeClass('d-block');
-                    $('#alert-qtyedit1').addClass('d-none');
-                }
+                // if (error.responseJSON.qty1 && error.responseJSON.qty1[0]) {
+                //     //show alert
+                //     $('#alert-qtyedit1').removeClass('d-none');
+                //     $('#alert-qtyedit1').addClass('d-block');
+                //     //add message to alert
+                //     $('#alert-qtyedit1').html(error.responseJSON.qty1[0]);
+                // } else {
+                //     $('#alert-qtyedit1').removeClass('d-block');
+                //     $('#alert-qtyedit1').addClass('d-none');
+                // }
 
-                if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
-                    //show alert
-                    $('#alert-hargaedit1').removeClass('d-none');
-                    $('#alert-hargaedit1').addClass('d-block');
-                    //add message to alert
-                    $('#alert-hargaedit1').html(error.responseJSON.harga1[0]);
-                } else {
-                    $('#alert-hargaedit1').removeClass('d-block');
-                    $('#alert-hargaedit1').addClass('d-none');
-                }
+                // if (error.responseJSON.harga1 && error.responseJSON.harga1[0]) {
+                //     //show alert
+                //     $('#alert-hargaedit1').removeClass('d-none');
+                //     $('#alert-hargaedit1').addClass('d-block');
+                //     //add message to alert
+                //     $('#alert-hargaedit1').html(error.responseJSON.harga1[0]);
+                // } else {
+                //     $('#alert-hargaedit1').removeClass('d-block');
+                //     $('#alert-hargaedit1').addClass('d-none');
+                // }
 
             }
         });
@@ -307,17 +290,19 @@
         $('#tanggaledit').val("");
         $('#qtyedit1').val("");
         $('#hargaedit1').val("");
-        $('#alert-produkedit1').removeClass('d-block');
-        $('#alert-produkedit1').addClass('d-none');
+        // $('#alert-produkedit1').removeClass('d-block');
+        // $('#alert-produkedit1').addClass('d-none');
         $('#alert-tanggaledit').removeClass('d-block');
         $('#alert-tanggaledit').addClass('d-none');
-        $('#alert-qtyedit1').removeClass('d-block');
-        $('#alert-qtyedit1').addClass('d-none');
-        $('#alert-hargaedit1').removeClass('d-block');
-        $('#alert-hargaedit1').addClass('d-none');
+        // $('#alert-qtyedit1').removeClass('d-block');
+        // $('#alert-qtyedit1').addClass('d-none');
+        // $('#alert-hargaedit1').removeClass('d-block');
+        // $('#alert-hargaedit1').addClass('d-none');
         $('.deleteRow').remove();
+        $('#subtotaledit1').val("");
+        $('#totaledit').val("");
         idpembelian = "";
         totaledit = 0;
-        rowNumber = 0;
+        rowNumber = 1;
     });
 </script>

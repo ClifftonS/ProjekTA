@@ -49,9 +49,6 @@
 </div>
 
 <script>
-    $('#telpedit').on('keyup', function(e) {
-        $(this).val(formatAngka($(this).val()));
-    });
     $('#Editsupplier').on('show.bs.modal', function(e) {
         var idsupl = $(e.relatedTarget).data('id').idsupl;
         var nama = $(e.relatedTarget).data('id').nama;

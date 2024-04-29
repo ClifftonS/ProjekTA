@@ -22,6 +22,23 @@
 
 <script>
     $(document).ready(function() {
+        $('#telpadd').inputmask('numeric', {
+            autoGroup: true,
+            digits: 0,
+            allowMinus: false,
+            rightAlign: false,
+            placeholder: "",
+            showMaskOnHover: false
+            // clearMaskOnLostFocus: true
+            // 'groupSeparator': '.'
+        });
+        $('#telpedit').inputmask('numeric', {
+            autoGroup: true,
+            digits: 0,
+            allowMinus: false,
+            rightAlign: false,
+            placeholder: ""
+        });
         var page = 1;
         search(page);
         $("#input").keyup(function() {

@@ -48,9 +48,6 @@
 </div>
 
 <script>
-    $('#telpadd').on('keyup', function(e) {
-        $(this).val(formatAngka($(this).val()));
-    });
     $('#addsupplier').click(function(e) {
         e.preventDefault();
 

@@ -26,7 +26,8 @@
                         <label for="tanggaladd" class="col-form-label">Tanggal Pembelian</label>
                     </div>
                     <div class="col-7 align-self-center">
-                        <input type="date" id="tanggaladd" class="form-control">
+                        <input type="date" id="tanggaladd" class="form-control"
+                            style="background-color: #F4F9FF; border-radius: 10px;">
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-2">
@@ -47,14 +48,16 @@
                     <div class="col-2 text-center">
                         <label for="qtyadd1" class="col-form-label">Kuantitas</label>
                         <input type="number" name="qtyadd1" id="qtyadd1" min="1"
-                            class="form-control hitungTotal" required>
+                            class="form-control hitungTotal" style="background-color: #F4F9FF; border-radius: 10px;"
+                            required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd1"></div>
                         </div>
                     </div>
                     <div class="col-3 text-center">
                         <label for="hargaadd1" class="col-form-label">Harga</label>
-                        <input type="text" name="hargaadd1" id="hargaadd1" class="form-control hitungTotal" required>
+                        <input type="text" name="hargaadd1" id="hargaadd1" class="form-control hitungTotal"
+                            style="background-color: #F4F9FF; border-radius: 10px;" required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-hargaadd1"></div>
                         </div>
@@ -101,21 +104,21 @@
         var newRow = `
                 <div class="row g-1 d-flex justify-content-center margin-row deleteRow">
                     <div class="col-4 text-center">
-                        <select class="form-select" id="produkadd${rowNumber}" name="produk" style="" required>
+                        <select class="form-select" id="produkadd${rowNumber}" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>
                         </select>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-produkadd1"></div>
                         </div>
                     </div>
                     <div class="col-2 text-center">
-                        <input type="number" name="qtyadd${rowNumber}" id="qtyadd${rowNumber}" min="1" class="form-control hitungTotal"
+                        <input type="number" name="qtyadd${rowNumber}" id="qtyadd${rowNumber}" min="1" class="form-control hitungTotal" style="background-color: #F4F9FF; border-radius: 10px;"
                              required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd1"></div>
                         </div>
                     </div>
                     <div class="col-3 text-center">
-                        <input type="text" name="hargaadd${rowNumber}" id="hargaadd${rowNumber}" class="form-control hitungTotal"
+                        <input type="text" name="hargaadd${rowNumber}" id="hargaadd${rowNumber}" class="form-control hitungTotal" style="background-color: #F4F9FF; border-radius: 10px;"
                              required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-hargaadd1"></div>
@@ -139,7 +142,7 @@
             success: function(response) {
                 var produkSelect = $(
                     '<select class="form-select" id= "produkadd' + rowNumber +
-                    '" name="produk" style="" required>'
+                    '" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -154,6 +157,16 @@
 
                 $('#produkadd' + rowNumber + '').replaceWith(produkSelect);
 
+                $('#hargaadd' + rowNumber + '').inputmask('numeric', {
+                    autoGroup: true,
+                    digits: 0,
+                    allowMinus: false,
+                    rightAlign: false,
+                    placeholder: "",
+                    showMaskOnHover: false,
+                    groupSeparator: '.'
+                });
+
             }
         });
 
@@ -164,8 +177,6 @@
         for (j; j <= rowNumber; j++) {
             var harga = $('#hargaadd' + j + '').val();
             var hargaTanpaSeparator = harga.replace(/\./g, '');
-            var formattedNumber = hargaTanpaSeparator.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            $('#hargaadd' + j + '').val(formattedNumber);
             var qty = $('#qtyadd' + j + '').val();
             var subtotal = hargaTanpaSeparator * qty;
             $('#subtotaladd' + j + '').val(parseFloat(subtotal)
@@ -182,10 +193,10 @@
             url: "{{ url('/ajaxpembelianadd') }}",
             success: function(response) {
                 var produkSelect = $(
-                    '<select class="form-select" id="produkadd1" name="produk" style="" required>'
+                    '<select class="form-select" id="produkadd1" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
                 var supplierSelect = $(
-                    '<select class="form-select" id="supplieradd" name="produk" style="" required>'
+                    '<select class="form-select" id="supplieradd" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -336,6 +347,8 @@
         $('#alert-hargaadd1').removeClass('d-block');
         $('#alert-hargaadd1').addClass('d-none');
         $('.deleteRow').remove();
+        $('#subtotaladd1').val("");
+        $('#totaladd').val("");
         rowNumber = 1;
     });
 
@@ -349,20 +362,4 @@
 
         $('#tanggaladd').val(today);
     }
-
-    // function formatRupiah(angka, prefix) {
-    //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-    //         split = number_string.split(','),
-    //         sisa = split[0].length % 3,
-    //         rupiah = split[0].substr(0, sisa),
-    //         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    //     if (ribuan) {
-    //         separator = sisa ? '.' : '';
-    //         rupiah += separator + ribuan.join('.');
-    //     }
-
-    //     rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
-    //     return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-    // }
 </script>

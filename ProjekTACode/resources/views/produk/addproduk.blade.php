@@ -80,10 +80,11 @@
             url: "{{ url('/ajaxprodukadd') }}",
             success: function(response) {
                 var merkSelect = $(
-                    '<select class="form-select" id="merkadd" name="merk" style="" required>');
+                    '<select class="form-select" id="merkadd" name="merk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                );
 
                 var kategoriSelect = $(
-                    '<select class="form-select" id="kategoriadd" name="kategori" style="" required>'
+                    '<select class="form-select" id="kategoriadd" name="kategori" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.merk.length == 0) {

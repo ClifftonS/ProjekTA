@@ -26,7 +26,8 @@
                         <label for="tanggaledit" class="col-form-label">Tanggal Pembelian</label>
                     </div>
                     <div class="col-7 align-self-center">
-                        <input type="date" id="tanggaledit" class="form-control">
+                        <input type="date" id="tanggaledit" class="form-control"
+                            style="background-color: #F4F9FF; border-radius: 10px;">
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-2">
@@ -146,7 +147,7 @@
                 }
 
                 var supplierSelect = $(
-                    '<select class="form-select" id="supplieredit" name="produk" style="" readonly>'
+                    '<select class="form-select" id="supplieredit" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" readonly>'
                 );
                 if (response.supplier.length == 0) {
                     supplierSelect.append('<option value="kosong">Tidak ada supplier</option>');
@@ -318,6 +319,6 @@
         $('.deleteRow').remove();
         idpembelian = "";
         totaledit = 0;
-        rowNumber = 0;
+        rowNumber = 1;
     });
 </script>

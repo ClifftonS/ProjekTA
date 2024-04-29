@@ -63,9 +63,9 @@
 </div>
 
 <script>
-    $('#telpedit').on('keyup', function(e) {
-        $(this).val(formatAngka($(this).val()));
-    });
+    // $('#telpedit').on('keyup', function(e) {
+    //     $(this).val(formatAngka($(this).val()));
+    // });
     $('#Editkonsumen').on('show.bs.modal', function(e) {
         var idkons = $(e.relatedTarget).data('id').idkons;
         var nama = $(e.relatedTarget).data('id').nama;

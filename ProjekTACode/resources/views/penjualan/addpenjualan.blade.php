@@ -10,15 +10,15 @@
             <div class="modal-body">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
-                        <label for="supplieradd" class="col-form-label">Konsumen</label>
+                        <label for="konsumenadd" class="col-form-label">Konsumen</label>
                     </div>
                     <div class="col-7">
-                        <select class="form-select" id="supplieradd" name="produk" style=""required>
+                        <select class="form-select" id="konsumenadd" name="produk" style=""required>
                         </select>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-2">
-                    <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-supplieradd"></div>
+                    <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-konsumenadd"></div>
                 </div>
 
                 <div class="row g-1 d-flex justify-content-center margin-row">
@@ -26,7 +26,8 @@
                         <label for="tanggaladd" class="col-form-label">Tanggal Penjualan</label>
                     </div>
                     <div class="col-7 align-self-center">
-                        <input type="date" id="tanggaladd" class="form-control">
+                        <input type="date" id="tanggaladd" style="background-color: #F4F9FF; border-radius: 10px;"
+                            class="form-control">
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-2">
@@ -47,14 +48,16 @@
                     <div class="col-2 text-center">
                         <label for="qtyadd1" class="col-form-label">Kuantitas</label>
                         <input type="number" name="qtyadd1" id="qtyadd1" min="1"
-                            class="form-control hitungTotal" required>
+                            class="form-control hitungTotal" style="background-color: #F4F9FF; border-radius: 10px;"
+                            required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd1"></div>
                         </div>
                     </div>
                     <div class="col-3 text-center">
                         <label for="hargaadd1" class="col-form-label">Harga</label>
-                        <input type="text" name="hargaadd1" id="hargaadd1" class="form-control hitungTotal" required>
+                        <input type="text" name="hargaadd1" id="hargaadd1" class="form-control hitungTotal"
+                            style="background-color: #F4F9FF; border-radius: 10px;" required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-hargaadd1"></div>
                         </div>
@@ -108,21 +111,21 @@
                         </div>
                     </div>
                     <div class="col-2 text-center">
-                        <input type="number" name="qtyadd${rowNumber}" id="qtyadd${rowNumber}" min="1" class="form-control hitungTotal"
+                        <input type="number" name="qtyadd${rowNumber}" id="qtyadd${rowNumber}" min="1" class="form-control hitungTotal" style="background-color: #F4F9FF; border-radius: 10px;"
                              required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-qtyadd${rowNumber}"></div>
                         </div>
                     </div>
                     <div class="col-3 text-center">
-                        <input type="text" name="hargaadd${rowNumber}" id="hargaadd${rowNumber}" class="form-control hitungTotal"
+                        <input type="text" name="hargaadd${rowNumber}" id="hargaadd${rowNumber}" class="form-control hitungTotal" style="background-color: #F4F9FF; border-radius: 10px;"
                              required>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-hargaadd1"></div>
                         </div>
                     </div>
                     <div class="col-3 text-center">
-                        <input type="text" name="subtotaladd${rowNumber}" id="subtotaladd${rowNumber}" class="form-control"
+                        <input type="text" name="subtotaladd${rowNumber}" id="subtotaladd${rowNumber}" class="form-control" 
                         readonly>
                         <div class="row d-flex justify-content-center mt-2">
                             <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-subtotaladd1">
@@ -139,7 +142,7 @@
             success: function(response) {
                 var produkSelect = $(
                     '<select class="form-select" id= "produkadd' + rowNumber +
-                    '" name="produk" style="" required>'
+                    '" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -154,6 +157,16 @@
 
                 $('#produkadd' + rowNumber + '').replaceWith(produkSelect);
 
+                $('#hargaadd' + rowNumber + '').inputmask('numeric', {
+                    autoGroup: true,
+                    digits: 0,
+                    allowMinus: false,
+                    rightAlign: false,
+                    placeholder: "",
+                    showMaskOnHover: false,
+                    groupSeparator: '.'
+                });
+
             }
         });
 
@@ -164,8 +177,8 @@
         for (j; j <= rowNumber; j++) {
             var harga = $('#hargaadd' + j + '').val();
             var hargaTanpaSeparator = harga.replace(/\./g, '');
-            var formattedNumber = hargaTanpaSeparator.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            $('#hargaadd' + j + '').val(formattedNumber);
+            // var formattedNumber = hargaTanpaSeparator.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            // $('#hargaadd' + j + '').val(formattedNumber);
             var qty = $('#qtyadd' + j + '').val();
             var subtotal = hargaTanpaSeparator * qty;
             $('#subtotaladd' + j + '').val(parseFloat(subtotal)
@@ -175,7 +188,7 @@
         $('#totaladd').val(parseFloat(total)
             .toLocaleString('id-ID'));
     });
-    $(document).on('change', '#supplieradd', function() {
+    $(document).on('change', '#konsumenadd', function() {
         tooltp();
     });
     $('#Addpembelian').on('show.bs.modal', function(e) {
@@ -185,10 +198,10 @@
             url: "{{ url('/ajaxpenjualanadd') }}",
             success: function(response) {
                 var produkSelect = $(
-                    '<select class="form-select" id="produkadd1" name="produk" style="" required>'
+                    '<select class="form-select" id="produkadd1" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
                 var supplierSelect = $(
-                    '<select class="form-select" data-bs-toggle="tooltip" data-bs-placement="right" title="ppp" id="supplieradd" name="produk" style="" required>'
+                    '<select class="form-select" data-bs-toggle="tooltip" data-bs-placement="right" title="ppp" id="konsumenadd" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -211,7 +224,7 @@
                 }
 
                 $('#produkadd1').replaceWith(produkSelect);
-                $('#supplieradd').replaceWith(supplierSelect);
+                $('#konsumenadd').replaceWith(supplierSelect);
                 tooltp();
             }
         });
@@ -220,7 +233,7 @@
     $('#addpembelian').click(function(e) {
         e.preventDefault();
 
-        let supplier = $('#supplieradd').val();
+        let supplier = $('#konsumenadd').val();
         let tanggal = $('#tanggaladd').val();
         let totalsep = $('#totaladd').val();
         var total = totalsep.replace(/\./g, '');
@@ -292,13 +305,13 @@
 
                         if (error.responseJSON.supplier && error.responseJSON.supplier[0]) {
                             //show alert
-                            $('#alert-supplieradd').removeClass('d-none');
-                            $('#alert-supplieradd').addClass('d-block');
+                            $('#alert-konsumenadd').removeClass('d-none');
+                            $('#alert-konsumenadd').addClass('d-block');
                             //add message to alert
-                            $('#alert-supplieradd').html(error.responseJSON.supplier[0]);
+                            $('#alert-konsumenadd').html(error.responseJSON.supplier[0]);
                         } else {
-                            $('#alert-supplieradd').removeClass('d-block');
-                            $('#alert-supplieradd').addClass('d-none');
+                            $('#alert-konsumenadd').removeClass('d-block');
+                            $('#alert-konsumenadd').addClass('d-none');
                         }
 
                         for (var z = 1; z <= rowNumber; z++) {
@@ -359,6 +372,8 @@
         $('#alert-hargaadd1').removeClass('d-block');
         $('#alert-hargaadd1').addClass('d-none');
         $('.deleteRow').remove();
+        $('#subtotaladd1').val("");
+        $('#totaladd').val("");
         rowNumber = 1;
     });
 
@@ -374,7 +389,7 @@
     }
 
     function tooltp() {
-        let total = $('#supplieradd').val();
+        let total = $('#konsumenadd').val();
         $.ajax({
             type: "get",
             data: {
@@ -382,12 +397,11 @@
             },
             url: "{{ url('/ajaxtooltip') }}",
             success: function(response) {
-                console.log(response.total);
-                $("#supplieradd").tooltip('dispose');
-                $('#supplieradd').attr('title', 'Pembelian ' + response.total +
+                $("#konsumenadd").tooltip('dispose');
+                $('#konsumenadd').attr('title', 'Pembelian ' + response.total +
                     ' transaksi');
                 // Dispose the old tooltip
-                $("#supplieradd").tooltip("show"); // Create a new tooltip
+                $("#konsumenadd").tooltip("show"); // Create a new tooltip
             }
         });
     }

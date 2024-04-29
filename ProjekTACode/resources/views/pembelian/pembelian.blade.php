@@ -27,6 +27,15 @@
 
 <script>
     $(document).ready(function() {
+        $('#hargaadd1').inputmask('numeric', {
+            autoGroup: true,
+            digits: 0,
+            allowMinus: false,
+            rightAlign: false,
+            placeholder: "",
+            showMaskOnHover: false,
+            groupSeparator: '.'
+        });
         var today = moment();
         var page = 1;
         $("#daterange").daterangepicker({

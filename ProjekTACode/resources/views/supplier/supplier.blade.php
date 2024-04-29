@@ -22,6 +22,21 @@
 
 <script>
     $(document).ready(function() {
+        $('#telpadd').inputmask('numeric', {
+            autoGroup: true,
+            digits: 0,
+            allowMinus: false,
+            rightAlign: false,
+            placeholder: "",
+            showMaskOnHover: false
+        });
+        $('#telpedit').inputmask('numeric', {
+            autoGroup: true,
+            digits: 0,
+            allowMinus: false,
+            rightAlign: false,
+            placeholder: ""
+        });
         var page = 1;
         search(page);
         $("#input").keyup(function() {
@@ -32,11 +47,6 @@
             search(page);
         });
     });
-
-    function formatAngka(angka, prefix) {
-        var number_string = angka.replace(/[^,\d]/g, '');
-        return number_string;
-    }
 
     function search(page) {
         var strcari = $("#input").val();

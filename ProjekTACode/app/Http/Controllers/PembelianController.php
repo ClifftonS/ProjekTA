@@ -124,24 +124,15 @@ class PembelianController extends Controller
     public function edit(Request $request) {
         $id = $request->id;
         $messages = [
-            'tanggal.required' => 'Tanggal harus diisi',
-            'qty1.required' => 'Qty harus diisi',
-            'harga1.required' => 'Harga harus diisi'
+            'tanggal.required' => 'Tanggal harus diisi'
        ];
         $validator = Validator::make($request->all(), [
-            'produk1'   => ['required', function ($attribute, $value, $fail) {
-                if ($value == "kosong") {
-                    $fail('Produk tidak boleh kosong');
-                }
-            }],
             'supplier'   => ['required', function ($attribute, $value, $fail) {
                 if ($value == "kosong") {
                     $fail('Supplier tidak boleh kosong');
                 }
             }],
-            'tanggal' => 'required',
-            'qty1' => 'required',
-            'harga1' => 'required'
+            'tanggal' => 'required'
         ],$messages);
 
         if ($validator->fails()) {
@@ -152,8 +143,7 @@ class PembelianController extends Controller
         
         DB::table('pembelian')->where('id_pembelian',$id)->update([
             'id_supplier' => $request->supplier,
-            'tanggal_pembelian' => $formatted_date,
-            'total_pembelian' => $request->total
+            'tanggal_pembelian' => $formatted_date
         ]);
 
         // for ($i = 1; $i <= $request->jumlahdata; $i++){
