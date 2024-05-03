@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body overflow-scroll" style="max-height: 700px">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
                         <label for="supplieradd" class="col-form-label">Supplier</label>
@@ -141,7 +141,7 @@
             url: "{{ url('/ajaxpembelianadd') }}",
             success: function(response) {
                 var produkSelect = $(
-                    '<select class="form-select" id= "produkadd' + rowNumber +
+                    '<select class="form-select select2" id= "produkadd' + rowNumber +
                     '" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
@@ -156,7 +156,9 @@
                 }
 
                 $('#produkadd' + rowNumber + '').replaceWith(produkSelect);
-
+                $('.select2').select2({
+                    dropdownParent: $("#Addpembelian")
+                });
                 $('#hargaadd' + rowNumber + '').inputmask('numeric', {
                     autoGroup: true,
                     digits: 0,
@@ -193,10 +195,10 @@
             url: "{{ url('/ajaxpembelianadd') }}",
             success: function(response) {
                 var produkSelect = $(
-                    '<select class="form-select" id="produkadd1" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                    '<select class="form-select select2" id="produkadd1" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
                 var supplierSelect = $(
-                    '<select class="form-select" id="supplieradd" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                    '<select class="form-select select2" id="supplieradd" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -220,6 +222,9 @@
 
                 $('#produkadd1').replaceWith(produkSelect);
                 $('#supplieradd').replaceWith(supplierSelect);
+                $('.select2').select2({
+                    dropdownParent: $("#Addpembelian")
+                });
 
             }
         });

@@ -16,3 +16,23 @@
 .nav-link:hover {
     cursor: pointer;
 }
+.select2-container {
+    margin: 0;
+    width: 100% !important;
+    background-color: #F4F9FF !important;
+  border-radius: 10px !important;
+  border-color: whitesmoke !important;
+}
+.select2-selection__rendered {
+    line-height: 34px !important;
+}
+.select2-container .select2-selection--single {
+    height: 38px !important;
+    background-color: #F4F9FF !important;
+  border-radius: 10px !important;
+  border-color: lightgrey !important;
+}
+.select2-selection__arrow {
+    height: 37px !important;
+}
+  

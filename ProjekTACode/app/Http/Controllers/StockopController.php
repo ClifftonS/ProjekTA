@@ -43,10 +43,34 @@ class StockopController extends Controller
             if($c == 0){
                 return view('noresultView');
             }else{
+                if ($totalPages > 5){
+                    if ($currentPage == 1){
+                        $startPage = 1;
+                        $endPage = min($currentPage + 4, $totalPages);
+                    }elseif ($currentPage == 2){
+                        $startPage = 1;
+                        $endPage = min($currentPage + 3, $totalPages);
+                    }elseif ($currentPage == $totalPages){
+                        $startPage = $currentPage-4;
+                        $endPage = $currentPage;
+                    }
+                    elseif ($currentPage == $totalPages-1){
+                        $startPage = $currentPage-3;
+                        $endPage = $currentPage+1;
+                    }else{
+                    $startPage = max($currentPage - 2, 1);
+                    $endPage = min($currentPage + 2, $totalPages);
+                    }
+                    }else{
+                        $startPage = 1;
+                    $endPage = $totalPages;
+                    }
                 return view('stockop.ajaxstockop')->with([
                     'datasend' => $results,
                     'totalPages' => $totalPages,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
+            'startPage' => $startPage,
+            'endPage' => $endPage
                 ]);
             }
     }

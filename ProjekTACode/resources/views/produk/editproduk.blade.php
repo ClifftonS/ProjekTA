@@ -62,6 +62,17 @@
                     <div class="alert alert-danger col-10 d-none p-2" role="alert" id="alert-stokedit"></div>
                 </div>
 
+                <div class="row g-1 d-flex justify-content-center margin-row align-items-center">
+                    <div class="col-3">
+                        <label for="stokadd" class="col-form-label">Ingatkan Stok</label>
+                    </div>
+                    <div class="col-7 align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cboxstok">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-3" style="margin-bottom: 20%"></div>
                 <div class="d-flex justify-content-center mb-4">
 
@@ -81,20 +92,24 @@
         var merk = $(e.relatedTarget).data('id').merk;
         var kategori = $(e.relatedTarget).data('id').kategori;
         var stok = $(e.relatedTarget).data('id').stok;
+        var stokwrn = $(e.relatedTarget).data('id').stokwrn;
         $(e.currentTarget).find('input[id="idedit"]').val(idproduk);
         $(e.currentTarget).find('input[id="namaedit"]').val(nama);
         $(e.currentTarget).find('input[id="stokedit"]').val(stok);
+        if (stokwrn == 1) {
+            $('#cboxstok').prop('checked', true);
+        }
 
         $.ajax({
             type: "get",
             url: "{{ url('/ajaxprodukadd') }}",
             success: function(response) {
                 var merkSelect = $(
-                    '<select class="form-select" id="merkedit" name="merk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
-                    );
+                    '<select class="form-select select2" id="merkedit" name="merk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                );
 
                 var kategoriSelect = $(
-                    '<select class="form-select" id="kategoriedit" name="kategori" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                    '<select class="form-select select2" id="kategoriedit" name="kategori" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.merk.length == 0) {
@@ -121,12 +136,21 @@
                 $('#kategoriedit').replaceWith(kategoriSelect);
                 $("#kategoriedit option[value='" + kategori + "']").attr('selected', true);
                 $("#merkedit option[value='" + merk + "']").attr('selected', true);
+                $('.select2').select2({
+                    dropdownParent: $("#Editproduk")
+                });
+
             }
         });
     });
     $('#editproduk').click(function(e) {
         e.preventDefault();
 
+        if ($('#cboxstok').prop('checked') == true) {
+            var stokcb = 1;
+        } else {
+            var stokcb = 0;
+        }
         let id = $('#idedit').val();
         let nama = $('#namaedit').val();
         let merk = $('#merkedit').val();
@@ -142,6 +166,7 @@
                 "merk": merk,
                 "kategori": kategori,
                 "stok": stok,
+                "stokcb": stokcb,
                 "_token": token
             },
             success: function(response) {

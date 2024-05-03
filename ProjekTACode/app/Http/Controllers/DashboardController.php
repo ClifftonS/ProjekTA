@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function ajax1(Request $request) {
-        $results =  DB::table('produk')->where('delete', 0)->where('stok_produk', '<=' , 10)->orderBy('stok_produk', 'asc')->get();
+        $results =  DB::table('produk')->where('delete', 0)->where('stok_produk', '<' , 10)->where('stokwrn', '=' , 1)->orderBy('stok_produk', 'asc')->get();
         $terlaris =  DB::table('detail_penjualan')->select('id_produk', DB::raw('SUM(qty_detail) as total_qty'))->orderBy('total_qty', 'desc')->limit(20)->groupBy('id_produk')->get();
         $c = count($results);
         if($c == 0){

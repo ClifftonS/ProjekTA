@@ -24,10 +24,19 @@
                         var page = 1;
                         search(page);
                         $("#input").keyup(function() {
+                            page = 1;
                             search(page);
                         });
-                        $(document).on('click', '.page-link', function() {
-                            var page = $(this).text(); // Dapatkan nomor halaman dari teks tombol
+                        $(document).on('click', '.nomer', function() {
+                            page = $(this).text(); // Dapatkan nomor halaman dari teks tombol
+                            search(page);
+                        });
+                        $(document).on('click', '.prev', function() {
+                            page--;
+                            search(page);
+                        });
+                        $(document).on('click', '.next', function() {
+                            page++;
                             search(page);
                         });
                     });

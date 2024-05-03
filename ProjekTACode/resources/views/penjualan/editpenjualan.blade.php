@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body overflow-scroll" style="max-height: 700px">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
                         <label for="supplieredit" class="col-form-label">Konsumen</label>
@@ -147,7 +147,7 @@
                 }
 
                 var supplierSelect = $(
-                    '<select class="form-select" id="supplieredit" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" readonly>'
+                    '<select class="form-select select2" id="supplieredit" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" readonly>'
                 );
                 if (response.supplier.length == 0) {
                     supplierSelect.append('<option value="kosong">Tidak ada supplier</option>');
@@ -161,6 +161,9 @@
 
                 $('#supplieredit').replaceWith(supplierSelect);
                 $('#supplieredit').val(response.detail[0].id_konsumen);
+                $('.select2').select2({
+                    dropdownParent: $("#Editpembelian")
+                });
                 $('#tanggaledit').val(response.detail[0].tanggal_penjualan);
                 for (var j = 1; j <= response.detail.length; j++) {
                     var produkSelect = $(

@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body overflow-scroll" style="max-height: 700px">
                 <div class="row g-1 d-flex justify-content-center margin-row">
                     <div class="col-3">
                         <label for="konsumenadd" class="col-form-label">Konsumen</label>
@@ -141,7 +141,7 @@
             url: "{{ url('/ajaxpenjualanadd') }}",
             success: function(response) {
                 var produkSelect = $(
-                    '<select class="form-select" id= "produkadd' + rowNumber +
+                    '<select class="form-select select2" id= "produkadd' + rowNumber +
                     '" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
@@ -156,7 +156,9 @@
                 }
 
                 $('#produkadd' + rowNumber + '').replaceWith(produkSelect);
-
+                $('.select2').select2({
+                    dropdownParent: $("#Addpembelian")
+                });
                 $('#hargaadd' + rowNumber + '').inputmask('numeric', {
                     autoGroup: true,
                     digits: 0,
@@ -169,7 +171,7 @@
 
             }
         });
-
+        tooltp();
     });
     $(document).on('input', '.hitungTotal', function() {
         var j = 1;
@@ -198,10 +200,10 @@
             url: "{{ url('/ajaxpenjualanadd') }}",
             success: function(response) {
                 var produkSelect = $(
-                    '<select class="form-select" id="produkadd1" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                    '<select class="form-select select2" id="produkadd1" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
                 var supplierSelect = $(
-                    '<select class="form-select" data-bs-toggle="tooltip" data-bs-placement="right" title="ppp" id="konsumenadd" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
+                    '<select class="form-select select2" data-bs-toggle="tooltip" data-bs-placement="right" title="ppp" id="konsumenadd" name="produk" style="background-color: #F4F9FF; border-radius: 10px;" required>'
                 );
 
                 if (response.produk.length == 0) {
@@ -225,6 +227,9 @@
 
                 $('#produkadd1').replaceWith(produkSelect);
                 $('#konsumenadd').replaceWith(supplierSelect);
+                $('.select2').select2({
+                    dropdownParent: $("#Addpembelian")
+                });
                 tooltp();
             }
         });
@@ -374,6 +379,7 @@
         $('.deleteRow').remove();
         $('#subtotaladd1').val("");
         $('#totaladd').val("");
+        $("#konsumenadd").tooltip('dispose');
         rowNumber = 1;
     });
 
@@ -401,6 +407,10 @@
                 $('#konsumenadd').attr('title', 'Pembelian ' + response.total +
                     ' transaksi');
                 // Dispose the old tooltip
+                $("#konsumenadd").tooltip({
+                    placement: 'top'
+                });
+
                 $("#konsumenadd").tooltip("show"); // Create a new tooltip
             }
         });

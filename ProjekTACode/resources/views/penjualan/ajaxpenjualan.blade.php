@@ -36,11 +36,25 @@
     <div class="row">
         <nav aria-label="...">
             <ul class="pagination d-flex justify-content-center">
-                @for ($page = 1; $page <= $totalPages; $page++)
+                @if ($totalPages > 5)
+                    <li class="page-item @if ($currentPage <= 3) disabled @endif">
+                        <a class="page-link prev" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                @endif
+                @for ($page = $startPage; $page <= $endPage; $page++)
                     <li class="page-item @if ($currentPage == $page) active @endif" style="cursor: pointer;">
-                        <a class="page-link">{{ $page }}</a>
+                        <a class="page-link nomer">{{ $page }}</a>
                     </li>
                 @endfor
+                @if ($totalPages > 5)
+                    <li class="page-item @if ($currentPage >= $totalPages - 2) disabled @endif">
+                        <a class="page-link next" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
     </div>
