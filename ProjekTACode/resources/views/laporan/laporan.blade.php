@@ -45,6 +45,7 @@
 
         search(page);
         $("#jenis").change(function() {
+            page = 1;
             search(page);
         });
         $(document).on('click', '.nomer', function() {

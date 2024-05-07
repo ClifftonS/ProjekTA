@@ -13,10 +13,11 @@ class LaporanController extends Controller
 
         $perPage = 12; // Number of items per page
         if($jenis == "penjualan"){
-            $totalUsers = DB::table('penjualan')->join('detail_penjualan', 'penjualan.id_penjualan','=', 'detail_penjualan.id_penjualan')->join('produk', 'produk.id_produk','=', 'detail_penjualan.id_produk')->select('produk.nama_produk', DB::raw('SUM(detail_penjualan.qty_detail) as total_qty'), DB::raw('SUM(detail_penjualan.qty_detail * detail_penjualan.harga_detail) as total_harga'))->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->groupBy('produk.nama_produk')->count();
+            $totalUsers = DB::table('penjualan')->join('detail_penjualan', 'penjualan.id_penjualan','=', 'detail_penjualan.id_penjualan')->join('produk', 'produk.id_produk','=', 'detail_penjualan.id_produk')->select('produk.nama_produk', DB::raw('SUM(detail_penjualan.qty_detail) as total_qty'), DB::raw('SUM(detail_penjualan.qty_detail * detail_penjualan.harga_detail) as total_harga'))->where('tanggal_penjualan', ">=", $tgl1)->where('tanggal_penjualan', "<=", $tgl2)->groupBy('produk.nama_produk')->get();
             } else{
-                $totalUsers =  DB::table('pembelian')->join('detail_pembelian', 'pembelian.id_pembelian','=', 'detail_pembelian.id_pembelian')->join('produk', 'produk.id_produk','=', 'detail_pembelian.id_produk')->select('produk.nama_produk', DB::raw('SUM(detail_pembelian.qty_detail) as total_qty'), DB::raw('SUM(detail_pembelian.qty_detail * detail_pembelian.harga_detail) as total_harga'))->where('tanggal_pembelian', ">=", $tgl1)->where('tanggal_pembelian', "<=", $tgl2)->groupBy('produk.nama_produk')->count();
+                $totalUsers =  DB::table('pembelian')->join('detail_pembelian', 'pembelian.id_pembelian','=', 'detail_pembelian.id_pembelian')->join('produk', 'produk.id_produk','=', 'detail_pembelian.id_produk')->select('produk.nama_produk', DB::raw('SUM(detail_pembelian.qty_detail) as total_qty'), DB::raw('SUM(detail_pembelian.qty_detail * detail_pembelian.harga_detail) as total_harga'))->where('tanggal_pembelian', ">=", $tgl1)->where('tanggal_pembelian', "<=", $tgl2)->groupBy('produk.nama_produk')->get();
             }
+        $totalUsers = count($totalUsers);
          // Total number of users where DELETE_USER is 0
         $totalPages = ceil($totalUsers / $perPage); // Calculate total pages
     
