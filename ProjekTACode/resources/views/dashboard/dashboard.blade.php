@@ -75,7 +75,7 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Stok Menipis</h6>
                 </div>
-                <div class="card-body overflow-scroll" id="search1" style="max-height: 915px">
+                <div class="card-body overflow-scroll" id="search1" style="max-height: 1100px">
 
                 </div>
             </div>

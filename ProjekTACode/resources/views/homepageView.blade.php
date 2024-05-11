@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>POS Berkat Mulia</title>
 
+    <link rel="icon" type="image/png" href="{{ URL::asset('logobm.png') }}">
     <link rel="stylesheet" href="{{ URL::asset('style.css') }}">
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
